@@ -855,7 +855,7 @@ body {
   .node-header { padding: 0.25rem 0.5rem; }
   .node-label, .depth-3 .node-label, .depth-4 .node-label, .depth-5 .node-label { color: #000 !important; }
   .discussion-q { border-left: 2px solid #999; background: #f5f5f5; }
-  .evidence-link { display: none; } .cat-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0.625rem 1.25rem; background: var(--surface); border-bottom: 1px solid var(--border); } .cat-nav-btn { padding: 0.5rem 1.1rem; border-radius: 20px; font-size: 0.82rem; font-weight: 600; cursor: pointer; border: 2px solid transparent; background: var(--surface-2); color: var(--text-muted); transition: all var(--transition); } .cat-nav-btn:hover { color: var(--text); border-color: var(--border-hover); } .cat-nav-btn.active { color: #0f1117; border-color: transparent; }
+  .evidence-link { display: none; }
 }
 </style>
 </head>
@@ -881,8 +881,8 @@ body {
   </div>
 </nav>
 
-<!-- CATEGORY NAV --> <div class="cat-nav" id="catNav"> <button class="cat-nav-btn active" data-cat="cat1" style="background:#FF6B6B" onclick="filterCategory('cat1')">Clinical Withdrawal Syndromes</button> <button class="cat-nav-btn" data-cat="cat2" style="background:#4ECDC4" onclick="filterCategory('cat2')">Neurobiology of Dependence</button> <button class="cat-nav-btn" data-cat="cat3" style="background:#FFD93D" onclick="filterCategory('cat3')">Acute Management</button> <button class="cat-nav-btn" data-cat="cat4" style="background:#6BCB77" onclick="filterCategory('cat4')">Long-Term Treatment &amp; MAT</button> <button class="cat-nav-btn" data-cat="cat5" style="background:#9B59B6" onclick="filterCategory('cat5')">Recovery &amp; Outcomes</button> </div> <!-- PROGRESS TRACKER -->
-<div class="progress-tracker" id="progressTracker" style<button class="cat-nav-btn" data-cat="cat2" style="background:#4ECDC4" onclick="filterCategory('cat2')">Neurobiology of Dependence</button><button class="cat-nav-btn" data-cat="cat3" style="background:#FFD93D;color:#1a1d27" onclick="filterCategory('cat3')">Acute Management</button><button class="cat-nav-btn" data-cat="cat4" style="background:#6BCB77;color:#1a1d27" onclick="filterCategory('cat4')">Long-Term Treatment &amp; MAT</button><button class="cat-nav-btn" data-cat="cat5" style="background:#9B59B6" onclick="filterCategory('cat5')">Recovery &amp; Outcomes</button>
+<!-- PROGRESS TRACKER -->
+<div class="progress-tracker" id="progressTracker" style="display:none">
   <button class="progress-toggle" id="progressToggle">
     <span class="arrow">▾</span> Session Progress
   </button>
@@ -1466,7 +1466,7 @@ function buildTree(node, depth, catColor, path) {
   return div;
 }
 
-function renderKnowledgeTree(filterCatId) {
+function renderKnowledgeTree() {
   const container = document.getElementById('knowledge-tree');
   container.innerHTML = '';
   CATEGORIES.forEach((cat, ci) => {
@@ -1480,7 +1480,7 @@ function renderKnowledgeTree(filterCatId) {
       </div>
       <div class="cat-body"></div>
     `;
-    card.setAttribute('data-catid', cat.id); card.querySelector('.cat-header').addEventListener('click', () => card.classList.toggle('open'));
+    card.querySelector('.cat-header').addEventListener('click', () => card.classList.toggle('open'));
     const body = card.querySelector('.cat-body');
     cat.subtopics.forEach(sub => {
       const subNode = buildTree({title: sub.title, children: sub.children}, 2, cat.color, cat.name);
@@ -2274,25 +2274,13 @@ document.getElementById('fcStartBtn').addEventListener('click', () => {
 // ═══════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════
-renderKnowledgeTree('all');
+renderKnowledgeTree();
 renderCaseList();
 renderPharma();
 renderMyths();
 updateProgress();
-   // CATEGORY NAV FILTER window.filterCategory = function(catId) { document.querySelectorAll('.cat-nav-btn').forEach(b => b.classList.remove('active')); const btn = document.querySelector('.cat-nav-btn[data-cat="'+catId+'"]'); if(btn) btn.classList.add('active'); const cards = document.querySelectorAll('#knowledge-tree .cat-card'); const catIds = ['cat1','cat2','cat3','cat4','cat5']; cards.forEach((card, i) => { card.style.display = (catId === 'all' || catIds[i] === catId) ? '' : 'none'; }); };
-document.querySelectorAll('.cat-nav-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.cat-nav-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const catId = btn.getAttribute('data-cat');
-    const cards = document.querySelectorAll('#knowledge-tree .cat-card');
-    cards.forEach((card, i) => {
-      const catIds = ['cat1','cat2','cat3','cat4','cat5'];
-      card.style.display = (catId === 'all' || catIds[i] === catId) ? '' : 'none';
-    });
-  });
-});
 
 </script>
 <footer style="text-align:center;padding:16px 24px;margin-top:32px;font-size:0.72rem;color:var(--text-faint);line-height:1.6;"><strong>Medical Disclaimer:</strong> This tool is intended for educational purposes only and does not constitute medical advice, diagnosis, or treatment. Clinical decisions should be made by qualified healthcare professionals based on individual patient circumstances. Information provided may not reflect the most current clinical guidelines. Always consult current literature and institutional protocols before applying any information to patient care.</footer></body>
 </html>
+Hyper Icon
