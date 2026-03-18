@@ -904,7 +904,7 @@ body {
     <button class="reset-btn" id="resetBtn">Reset All</button>
   </div>
   <div class="explore-controls">
-    <button class="ctrl-btn" id="collapseAllBtn">Collapse All</button>
+    <button class="ctrl-btn" id="collapseAllBtn">Collapse All</button>     <button class="ctrl-btn" id="expandAllBtn">Expand All</button>
     <label style="font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:0.35rem;">
       Expand to:
       <select id="expandLevelSelect">
@@ -1894,7 +1894,7 @@ document.getElementById('progressToggle').addEventListener('click', () => {
 // ═══════════════════════════════════════════════════════
 // COLLAPSE / EXPAND CONTROLS
 // ═══════════════════════════════════════════════════════
-document.getElementById('collapseAllBtn').addEventListener('click', () => {
+document.getElementById('expandAllBtn').addEventListener('click', () => {   document.querySelectorAll('.cat-card').forEach(c => c.classList.add('open'));   document.querySelectorAll('.tree-node').forEach(n => n.classList.add('open'));   updateBreadcrumb(); }); document.getElementById('collapseAllBtn').addEventListener('click', () => {
   document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('open'));
   document.querySelectorAll('.tree-node').forEach(n => n.classList.remove('open'));
   updateBreadcrumb();
