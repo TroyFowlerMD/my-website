@@ -95,20 +95,20 @@ body {
   backdrop-filter: blur(12px);
   display: flex; align-items: center; gap: 0;
   padding: 0 1.25rem;
-  height: 56px;
+  flex-wrap: wrap;   min-height: 56px;
 }
 .nav-logo {
   font-weight: 700; font-size: 0.95rem;
   color: var(--text);
   white-space: nowrap;
-  margin-right: 2rem;
+  flex: 1 1 100%;   margin-right: 0;
   display: flex; align-items: center; gap: 0.5rem;
 }
 .nav-logo svg { width: 22px; height: 22px; }
-.nav-tabs { display: flex; gap: 0; height: 100%; }
+.nav-tabs { display: flex; gap: 0; width: 100%; border-top: 1px solid var(--border); }
 .nav-tab {
-  padding: 0 1rem;
-  height: 100%;
+    padding: 0.625rem 1rem;
+  
   display: flex; align-items: center;
   font-size: 0.875rem; font-weight: 500;
   color: var(--text-muted);
