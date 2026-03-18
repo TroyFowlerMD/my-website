@@ -616,7 +616,7 @@ body {
   .case-list { grid-template-columns: 1fr; }
 }
 
-/* FOOTER */
+/* CAT NAV */ .cat-nav { display: none; width: 100%; border-top: 1px solid var(--border); background: var(--surface); padding: 0 0.5rem; overflow-x: auto; white-space: nowrap; } .cat-nav.visible { display: flex; gap: 0; } .cat-nav-btn { padding: 0.5rem 0.85rem; font-size: 0.78rem; font-weight: 600; border: none; background: none; border-bottom: 2px solid transparent; cursor: pointer; color: var(--text-muted); transition: all var(--transition); white-space: nowrap; display: flex; align-items: center; gap: 0.4rem; } .cat-nav-btn:hover { color: var(--text); } .cat-nav-btn.active { border-bottom-color: currentColor; color: var(--text); } .cat-nav-btn .cat-nav-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; } /* FOOTER */
 .site-footer {
   text-align: center;
   padding: 1.5rem;
@@ -879,7 +879,7 @@ body {
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
     </button>
   </div>
-</nav>
+<div class="cat-nav" id="catNav"></div></nav>
 
 <!-- PROGRESS TRACKER -->
 <div class="progress-tracker" id="progressTracker" style="display:none">
@@ -2274,7 +2274,7 @@ document.getElementById('fcStartBtn').addEventListener('click', () => {
 // ═══════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════
-renderKnowledgeTree();
+function initCatNav() { const catNav = document.getElementById('catNav'); if (!catNav) return; catNav.innerHTML = ''; let activeCat = null; CATEGORIES.forEach((cat, i) => { const btn = document.createElement('button'); btn.className = 'cat-nav-btn'; btn.innerHTML = '<span class="cat-nav-dot" style="background:' + cat.color + '"></span>' + cat.name; btn.style.color = activeCat === i ? cat.color : ''; btn.addEventListener('click', () => { if (activeCat === i) { activeCat = null; btn.classList.remove('active'); btn.style.color = ''; document.querySelectorAll('.cat-card').forEach(c => c.style.display = ''); } else { activeCat = i; document.querySelectorAll('.cat-nav-btn').forEach(b => { b.classList.remove('active'); b.style.color = ''; }); btn.classList.add('active'); btn.style.color = cat.color; document.querySelectorAll('.cat-card').forEach((c, ci) => { c.style.display = ci === i ? '' : 'none'; }); } }); catNav.appendChild(btn); }); } function updateCatNavVisibility() { const catNav = document.getElementById('catNav'); if (!catNav) return; if (currentTab === 'explore') { catNav.classList.add('visible'); } else { catNav.classList.remove('visible'); document.querySelectorAll('.cat-card').forEach(c => c.style.display = ''); document.querySelectorAll('.cat-nav-btn').forEach(b => { b.classList.remove('active'); b.style.color = ''; }); } } document.querySelectorAll('.nav-tab').forEach(tab => { tab.addEventListener('click', updateCatNavVisibility); }); renderKnowledgeTree(); initCatNav(); updateCatNavVisibility();
 renderCaseList();
 renderPharma();
 renderMyths();
