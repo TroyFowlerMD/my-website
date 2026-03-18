@@ -93,22 +93,28 @@ body {
   background: var(--surface);
   border-bottom: 1px solid var(--border);
   backdrop-filter: blur(12px);
-  display: flex; align-items: center; gap: 0;
+  display: flex; flex-direction: column;
   padding: 0 1.25rem;
-  flex-wrap: wrap;   min-height: 56px;
+}
+.nav-row-top {
+  display: flex; align-items: center; gap: 0.5rem;
+  width: 100%; padding: 0.5rem 0;
 }
 .nav-logo {
   font-weight: 700; font-size: 0.95rem;
   color: var(--text);
   white-space: nowrap;
-  flex: 1 1 100%;   margin-right: 0;
+  flex: 1;
   display: flex; align-items: center; gap: 0.5rem;
 }
 .nav-logo svg { width: 22px; height: 22px; }
-.nav-tabs { display: flex; gap: 0; width: 100%; border-top: 1px solid var(--border); }
+.nav-tabs {
+  display: flex; gap: 0; width: 100%;
+  border-top: 1px solid var(--border);
+  align-items: center;
+}
 .nav-tab {
-    padding: 0.625rem 1rem;
-  
+  padding: 0.625rem 1rem;
   display: flex; align-items: center;
   font-size: 0.875rem; font-weight: 500;
   color: var(--text-muted);
@@ -616,7 +622,89 @@ body {
   .case-list { grid-template-columns: 1fr; }
 }
 
-/* CAT NAV */ .cat-nav { display: none; width: 100%; border-top: 1px solid var(--border); background: var(--surface); padding: 0 0.5rem; overflow-x: auto; white-space: nowrap; } .cat-nav.visible { display: flex; gap: 0; } .cat-nav-btn { padding: 0.5rem 0.85rem; font-size: 0.78rem; font-weight: 600; border: none; background: none; border-bottom: 2px solid transparent; cursor: pointer; color: var(--text-muted); transition: all var(--transition); white-space: nowrap; display: flex; align-items: center; gap: 0.4rem; } .cat-nav-btn:hover { color: var(--text); } .cat-nav-btn.active { border-bottom-color: currentColor; color: var(--text); } .cat-nav-btn .cat-nav-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; } /* FOOTER */
+/* NAV ROW TOP */
+.nav-row-top {
+  display: flex; align-items: center; gap: 0.5rem;
+  width: 100%; padding: 0.5rem 0;
+}
+.nav-home-link {
+  font-size: 0.75rem; font-weight: 400;
+  color: var(--text-faint); text-decoration: none;
+  white-space: nowrap; transition: color var(--transition);
+  flex-shrink: 0;
+}
+.nav-home-link:hover { color: var(--text-muted); }
+.nav-tab-spacer { flex: 1; }
+.nav-util-btn {
+  padding: 0.35rem 0.7rem;
+  font-size: 0.72rem; font-weight: 500;
+  color: var(--text-faint); background: none;
+  border: 1px solid var(--border); border-radius: 6px;
+  cursor: pointer; transition: all var(--transition);
+  white-space: nowrap;
+}
+.nav-util-btn:hover { color: var(--text-muted); border-color: var(--border-hover); }
+
+/* CAT NAV — activity-tab style */
+.cat-nav {
+  display: none; width: 100%;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  padding: 0 0.25rem;
+  overflow-x: auto; white-space: nowrap;
+}
+.cat-nav.visible { display: flex; gap: 0; }
+.cat-nav-btn {
+  padding: 0.625rem 1rem;
+  font-size: 0.85rem; font-weight: 500;
+  border: none; background: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer; color: var(--text-muted);
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+.cat-nav-btn:hover { color: var(--text); }
+.cat-nav-btn.active { color: var(--text); border-bottom-color: var(--cat2); }
+
+/* SUBTOPIC CARDS (individual expandable cards per subtopic) */
+.subtopic-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+  transition: border-color var(--transition);
+}
+.subtopic-card:hover { border-color: var(--border-hover); }
+.subtopic-header {
+  padding: 0.875rem 1.25rem;
+  display: flex; align-items: center; gap: 0.75rem;
+  cursor: pointer; user-select: none;
+  transition: background var(--transition);
+}
+.subtopic-header:hover { background: var(--surface-2); }
+.subtopic-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+.subtopic-title {
+  font-size: 0.92rem; font-weight: 600; flex: 1;
+}
+.subtopic-arrow {
+  color: var(--text-faint); transition: transform var(--transition); font-size: 0.75rem;
+}
+.subtopic-card.open > .subtopic-header .subtopic-arrow { transform: rotate(90deg); }
+.subtopic-body { display: none; padding: 0 1.25rem 1rem; }
+.subtopic-card.open > .subtopic-body { display: block; }
+
+/* Empty state for explore panel */
+.explore-empty {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 4rem 2rem; color: var(--text-faint); text-align: center;
+}
+.explore-empty svg { margin-bottom: 1rem; opacity: 0.4; }
+.explore-empty p { font-size: 0.9rem; line-height: 1.5; max-width: 360px; }
+
+/* FOOTER */
 .site-footer {
   text-align: center;
   padding: 1.5rem;
@@ -632,12 +720,6 @@ body {
 .nav-logo-line1 { font-size: 0.85rem; font-weight: 700; }
 .nav-logo-line2 { font-size: 0.7rem; font-weight: 400; color: var(--text-muted); }
 
-/* EVIDENCE LINK */
-.evidence-link {
-  font-size: 0.7rem; opacity: 0.6; text-decoration: none; margin-left: 4px;
-  vertical-align: super; cursor: pointer; transition: opacity var(--transition);
-}
-.evidence-link:hover { opacity: 1; }
 
 /* EXPLORE CONTROLS */
 .explore-controls {
@@ -844,7 +926,7 @@ body {
 /* PRINT STYLES */
 @media print {
   body { background: #fff !important; color: #000 !important; font-size: 11pt; }
-  .topnav, .search-bar, .explore-controls, .breadcrumb-bar, .progress-tracker,
+  .topnav, .search-bar, .explore-controls, .breadcrumb-bar, .progress-tracker, .explore-empty,
   .site-footer, .nav-right, .theme-toggle, .discussion-q .q-icon,
   .ciwa-modal-overlay, .rx-modal-overlay, .jep-modal-overlay { display: none !important; }
   .panel { display: block !important; padding: 0; max-width: 100%; }
@@ -855,7 +937,6 @@ body {
   .node-header { padding: 0.25rem 0.5rem; }
   .node-label, .depth-3 .node-label, .depth-4 .node-label, .depth-5 .node-label { color: #000 !important; }
   .discussion-q { border-left: 2px solid #999; background: #f5f5f5; }
-  .evidence-link { display: none; }
 }
 </style>
 </head>
@@ -863,21 +944,28 @@ body {
 
 <!-- TOP NAV -->
 <nav class="topnav">
-  <div class="nav-logo">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-    <div class="nav-logo-text">
-      <span class="nav-logo-line1">Alcohol &amp; Benzodiazepine Use Disorders</span>
-      <span class="nav-logo-line2">AddictionEd by TroyMD</span>
+  <div class="nav-row-top">
+    <a href="#" class="nav-home-link">← SUD Training Home</a>
+    <div class="nav-logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      <div class="nav-logo-text">
+        <span class="nav-logo-line1">Alcohol &amp; Benzodiazepine Use Disorders</span>
+        <span class="nav-logo-line2">AddictionEd by TroyMD</span>
+      </div>
+    </div>
+    <div class="nav-right">
+      <button class="theme-toggle" data-theme-toggle aria-label="Toggle theme">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
     </div>
   </div>
   <div class="nav-tabs">
     <button class="nav-tab active" data-tab="explore">Explore</button>
     <button class="nav-tab" data-tab="activities">Activities</button>
-  </div>
-  <div class="nav-right">
-    <button class="theme-toggle" data-theme-toggle aria-label="Toggle theme">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-    </button>
+    <div class="nav-tab-spacer"></div>
+    <button class="nav-util-btn" id="ciwaBtnNav">CIWA-Ar Calculator</button>
+    <button class="nav-util-btn" id="rxRefBtnNav">Rx Quick Reference</button>
+    <button class="nav-util-btn" id="printBtnNav">🖨 Print View</button>
   </div>
 <div class="cat-nav" id="catNav"></div></nav>
 
@@ -904,7 +992,8 @@ body {
     <button class="reset-btn" id="resetBtn">Reset All</button>
   </div>
   <div class="explore-controls">
-    <button class="ctrl-btn" id="collapseAllBtn">Collapse All</button>     <button class="ctrl-btn" id="expandAllBtn">Expand All</button>
+    <button class="ctrl-btn" id="collapseAllBtn">Collapse All</button>
+    <button class="ctrl-btn" id="expandAllBtn">Expand All</button>
     <label style="font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:0.35rem;">
       Expand to:
       <select id="expandLevelSelect">
@@ -913,9 +1002,6 @@ body {
         <option value="3">+ Sub-subtopics (L3)</option>
       </select>
     </label>
-    <button class="ctrl-btn" id="ciwaBtn">CIWA-Ar Calculator</button>
-    <button class="ctrl-btn" id="rxRefBtn">Rx Quick Reference</button>
-    <button class="ctrl-btn" id="printBtn">🖨 Print View</button>
   </div>
   
   <div id="knowledge-tree"></div>
@@ -1083,24 +1169,6 @@ body {
 // ═══════════════════════════════════════════════════════
 // KNOWLEDGE TREE DATA (injected)
 // ═══════════════════════════════════════════════════════
-// Evidence citations for key nodes (added in tree rendering)
-const EVIDENCE_MAP = {
-  "CIWA-Ar Assessment": {url: "https://pubmed.ncbi.nlm.nih.gov/2597811/", label: "Sullivan et al., 1989 – CIWA-Ar Validation"},
-  "Kindling Phenomenon": {url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6761822/", label: "Becker, 1998 – Kindling in Alcohol Withdrawal"},
-  "Phenobarbital Protocol": {url: "https://pubmed.ncbi.nlm.nih.gov/32511109/", label: "ASAM CPG 2020 – Gold et al. Phenobarbital"},
-  "ASAM Criteria Levels of Care": {url: "https://pubmed.ncbi.nlm.nih.gov/32511109/", label: "ASAM CPG 2020"},
-  "Naltrexone": {url: "https://pubmed.ncbi.nlm.nih.gov/24825860/", label: "Jonas et al., 2014 – JAMA Meta-Analysis"},
-  "Oral Naltrexone": {url: "https://pubmed.ncbi.nlm.nih.gov/24825860/", label: "Jonas et al., 2014 – JAMA Meta-Analysis"},
-  "Acamprosate": {url: "https://pubmed.ncbi.nlm.nih.gov/20091521/", label: "Rösner et al., 2010 – Cochrane Review"},
-  "Ashton Protocol": {url: "https://www.benzoinfo.com/ashtonmanual/", label: "Ashton Manual – BZD Withdrawal"},
-  "CIWA-B": {url: "https://pubmed.ncbi.nlm.nih.gov/2597811/", label: "Busto et al., 1989"},
-  "Symptom-Triggered vs. Fixed-Dose Protocols": {url: "https://pubmed.ncbi.nlm.nih.gov/8052474/", label: "Saitz et al., 1994 – JAMA"},
-  "Allostatic Model": {url: "https://www.nature.com/articles/1395603", label: "Koob & Le Moal, 2001 – Neuropsychopharmacology"},
-  "TLR4/HMGB1/NF-κB Axis": {url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6946054/", label: "Mayfield & Harris, 2019"},
-  "Protracted Withdrawal Syndrome": {url: "https://www.benzoinfo.com/protracted-withdrawal-syndrome/", label: "Benzodiazepine Information Coalition"},
-  "Thiamine/Nutrition Protocol": {url: "https://pubmed.ncbi.nlm.nih.gov/32511109/", label: "ASAM CPG 2020"},
-  "COMBINE Study": {url: "https://pubmed.ncbi.nlm.nih.gov/16670409/", label: "Anton et al., 2006 – JAMA COMBINE Trial"}
-};
 const CATEGORIES = [{"id": "cat1", "name": "Clinical Withdrawal Syndromes", "color": "#FF6B6B", "subtopics": [{"title": "Alcohol Withdrawal Syndrome (AWS)", "discussion": "A patient presents with CIWA-Ar of 12 and reports 'easy' prior detoxes but this is their 6th detox episode. How does this change your risk assessment and management plan?", "children": [{"title": "Pathophysiology — GABA-A/NMDA Dual Mechanism", "children": [{"title": "GABA-A Receptor Downregulation", "children": [{"title": "Chronic ethanol enhances Cl⁻ influx → compensatory receptor downregulation, internalization, subunit composition shifts (α1↓)"}, {"title": "Reduced sensitivity to both endogenous GABA and exogenous benzodiazepines — basis of pharmacological cross-tolerance"}]}, {"title": "NMDA Receptor Upregulation", "children": [{"title": "Ethanol blocks NMDA receptors → compensatory ↑ receptor density (49% ↑ MK-801 binding) and NR2B/NR1 subunit expression"}, {"title": "On cessation: 'unmasked' upregulated NMDA → excitotoxic Ca²⁺ surge → seizures, neurodegeneration"}]}, {"title": "Voltage-Gated Calcium Channel (VGCC) Upregulation", "children": [{"title": "L-type VGCC upregulated after chronic ethanol → enhanced Ca²⁺ entry during withdrawal → contributes to seizure threshold lowering"}, {"title": "Clinical relevance: L-type VGCC antagonists (nifedipine, isradipine) reduce AWS signs in animal models"}]}, {"title": "Net result upon cessation: GABA-A hypofunction + NMDA hyperfunction + VGCC hyperactivity = CNS hyperexcitability → autonomic instability, tremor, seizures, delirium"}]}, {"title": "Clinical Timeline & Stages", "children": [{"title": "Stage 1: Minor Withdrawal (6–24h)", "children": [{"title": "Onset as early as 6h after last drink; can begin while BAC still measurable (Clinical Pearl: patient with BAC 150 mg/dL can be in active withdrawal)"}, {"title": "Symptoms: tremor, diaphoresis, tachycardia (HR >100), hypertension (BP >140/90), anxiety, nausea, insomnia"}, {"title": "Duration 24–48h if uncomplicated; escalates if untreated in high-risk patients"}]}, {"title": "Stage 2: Seizures & Hallucinosis (12–48h)", "children": [{"title": "Grand mal (GTC) seizures peak 24–48h. Brief, self-limited (<60s). Multiple seizures in ~30% if untreated"}, {"title": "Alcoholic hallucinosis: vivid visual/auditory hallucinations with INTACT sensorium (distinguishes from DT). Occurs 3–10% of patients; resolves 24–48h"}, {"title": "Key distinction: hallucinosis = hallucinations + clear consciousness; DT = hallucinations + delirium + autonomic storm"}]}, {"title": "Stage 3: Delirium Tremens (48–96h+)", "children": [{"title": "Onset typically 48–72h (can delay to 7–10 days with concomitant BZDs or polysubstance)"}, {"title": "Cardinal features: delirium + autonomic storm (fever, diaphoresis, tachycardia, hypertension) + perceptual disturbances"}, {"title": "Untreated mortality up to 20%; modern ICU-treated mortality 1–5%"}, {"title": "Duration 1–8 days untreated; 3–5 days with aggressive treatment"}]}]}, {"title": "CIWA-Ar Assessment", "children": [{"title": "10-Item Scoring (max 67 points)", "children": [{"title": "Items scored 0–7: Nausea/Vomiting, Tremor, Paroxysmal Sweats, Anxiety, Agitation, Tactile Disturbances, Auditory Disturbances, Visual Disturbances, Headache"}, {"title": "Orientation/Sensorium scored 0–4 (oriented → disoriented for person/place)"}]}, {"title": "Severity Thresholds", "children": [{"title": "≤8: Mild — consider outpatient management"}, {"title": "8–15: Moderate — inpatient monitoring strongly preferred"}, {"title": ">15: Severe — inpatient required; impending DT risk"}, {"title": ">15 + SBP >150 or HR >100: High risk for DT progression"}]}, {"title": "Limitations & Edge Cases", "children": [{"title": "Cannot use in sedated, intubated, or encephalopathic patients — switch to RASS (target 0 to −1) or MINDS scale"}, {"title": "Overestimates severity in concurrent pain, Wernicke's, hepatic encephalopathy"}, {"title": "CIWA-Ar validated for alcohol withdrawal only — underestimates risk in polysubstance (BZD + alcohol) withdrawal"}, {"title": "Pearl: High CIWA scores may drive BZD escalation in already-oversedated patients. Always reassess alertness before each dose"}]}, {"title": "PAWSS Risk Stratification Tool", "children": [{"title": "Prediction of Alcohol Withdrawal Severity Scale: 10-item pre-admission tool"}, {"title": "Items: BAL ≥200, other CNS depressant use, prior seizures, prior DT, recent binge, heavy use (>5/day), prior inpatient detox, medical comorbidities"}, {"title": "PAWSS ≥4 = high-risk patient requiring intensive management"}]}]}, {"title": "Predictors of Complicated Withdrawal", "children": [{"title": "Prior DT — strongest single predictor (OR >500 in some studies)"}, {"title": "Prior AWS seizures — strong predictor of recurrent seizures"}, {"title": "Multiple prior detox episodes — kindling-mediated; each episode lowers threshold"}, {"title": "Concurrent BZD/barbiturate use — pharmacologic synergy; escalates severity"}, {"title": "Age >65 — impaired CNS compensation; reduced GABAergic reserve"}, {"title": "Thrombocytopenia (<100K), hypokalemia, elevated homocysteine — lab markers of risk"}, {"title": "CIWA-Ar >10 on admission + elevated vitals — predicts complicated course"}, {"title": "Continuous daily drinking pattern vs. binge (OR 4.67 for DT with continuous)"}]}, {"title": "Kindling Phenomenon", "children": [{"title": "Molecular Mechanisms", "children": [{"title": "Repeated withdrawal → cumulative NMDA receptor upregulation → progressive excitotoxicity sensitivity"}, {"title": "Persistent VGCC changes and incremental GABA-A surface receptor loss"}, {"title": "AMPA receptor plasticity in hippocampal circuits (parallel to electrical kindling)"}]}, {"title": "Clinical Evidence", "children": [{"title": "Brown et al. (1988): 48% of AWS-seizure patients had ≥5 prior withdrawals vs. 12% in non-seizure controls"}, {"title": "Progressive exacerbation of intensity AND duration of seizures with each episode"}, {"title": "Amygdala kindling: binge drinkers with repeated detox show impaired facial emotion recognition"}]}, {"title": "Clinical Implications", "children": [{"title": "A patient reporting 'easy' past detoxes may have a dangerous current episode — kindling is progressive"}, {"title": "Even mild AWS should be treated pharmacologically to prevent kindling sensitization"}, {"title": "Number of prior detox episodes is a CLINICAL VITAL SIGN — always document"}]}]}]}, {"title": "Benzodiazepine Withdrawal Syndrome (BWS)", "discussion": "A patient on alprazolam 2mg TID for 3 years reports worsening anxiety despite dose increases. Is this tolerance, rebound, or recurrence of a primary anxiety disorder? How do you differentiate and manage?", "children": [{"title": "Half-Life Dependency & Timeline", "children": [{"title": "Short-Acting BZD Withdrawal", "children": [{"title": "Alprazolam (t½ 6–27h): onset 10–12h, peak 1–4 days, duration 1–4 weeks"}, {"title": "Lorazepam (t½ 10–20h): onset 12–24h, peak 2–4 days, duration 2–4 weeks"}, {"title": "Short-acting agents: more abrupt/intense onset, higher seizure risk due to rapid blood level fall, severe interdose withdrawal"}]}, {"title": "Long-Acting BZD Withdrawal", "children": [{"title": "Diazepam (t½ 20–100h + desmethyldiazepam 36–200h): onset 3–7 days, peak 7–14 days, duration 4–8 weeks"}, {"title": "Chlordiazepoxide (t½ 10–30h + metabolites to 200h): onset 2–5 days, peak 5–10 days"}, {"title": "Long-acting: gradual onset due to extended accumulation; active metabolites provide pharmacokinetic 'self-taper'; generally less intense peak"}]}, {"title": "Pearl: Alprazolam is particularly problematic — short t½ + high potency (1mg ≈ 20mg diazepam) → interdose withdrawal drives dose escalation and clock-watching"}]}, {"title": "True Withdrawal vs. Rebound vs. Recurrence", "children": [{"title": "True Withdrawal: NEW symptoms from neuroadaptation (seizures, tremor, depersonalization) — exceeds original symptoms; during/after taper"}, {"title": "Rebound: Transient return of ORIGINAL symptoms at GREATER intensity; days 1–14 after cessation; usually self-limiting"}, {"title": "Recurrence: Return of original underlying condition at original intensity; weeks–months after clearance; requires treatment of primary disorder"}, {"title": "Clinical challenge: Patients and clinicians frequently conflate these three — distinction determines whether to resume BZDs, initiate alternative pharmacotherapy, or simply wait"}]}, {"title": "Protracted Withdrawal Syndrome (PWS/PAWS)", "children": [{"title": "Prevalence & Duration", "children": [{"title": "10–15% of long-term BZD users who taper off; duration typically 6–18 months (anecdotal: 5–10 years)"}, {"title": "FDA Drug Safety Communication (2020): acknowledged 'variations in duration lasting weeks to years'"}, {"title": "JAMA Network Open (2023): BZD discontinuation associated with 1.6× increased 12-month mortality vs. continuation"}]}, {"title": "Symptom Domains", "children": [{"title": "Anxiety (gradually diminishing >1 year), insomnia (6–12 months), depression"}, {"title": "Sensory: tinnitus, paresthesias, burning pain, inner trembling (1–2+ years)"}, {"title": "Motor: muscle pain, cramps, tremor, spasms (1–2+ years)"}, {"title": "Cognitive: memory/concentration deficits (can persist 1–2+ years)"}]}, {"title": "Mechanisms", "children": [{"title": "Slow reversal of GABA-A subunit changes → neurological hyperexcitability"}, {"title": "BZD-blocked stress-coping learning during exposure → vulnerability"}, {"title": "Structural/functional brain changes → persistent cognitive deficits"}]}, {"title": "Risk Factors: Abrupt/rapid taper (biggest risk), high doses, polypharmacy with other CNS agents, very long duration (>10 years)"}]}, {"title": "Ashton Protocol", "children": [{"title": "Core Principles", "children": [{"title": "Individualized, patient-paced withdrawal — no fixed timelines"}, {"title": "Mandatory slow, gradual dose reduction — abrupt discontinuation is dangerous"}, {"title": "Cross-taper to diazepam for short-acting BZDs (long t½ + active metabolites → smooth blood levels)"}, {"title": "Reduce ~10% of CURRENT dose per step (not 10% of original dose)"}]}, {"title": "Diazepam Equivalence Table", "children": [{"title": "5mg diazepam ≈ alprazolam 0.25mg, lorazepam 0.5mg, clonazepam 0.25mg, oxazepam 10mg, temazepam 10mg, chlordiazepoxide 12.5mg"}, {"title": "Z-drugs: zolpidem 5mg ≈ 5mg diazepam; zopiclone 3.75mg ≈ 5mg diazepam"}]}, {"title": "Taper Rate Schedule", "children": [{"title": "40mg → 20mg/day: reduce 2–4mg every 1–2 weeks (10–20 weeks)"}, {"title": "20mg → 0: reduce 1–2mg every 1–2 weeks (20–40 weeks)"}, {"title": "Total typical duration: 30–60 weeks"}, {"title": "Final doses (0.5–1mg diazepam): can be stopped abruptly with minimal effect"}]}, {"title": "Pearl: Alprazolam is hardest to taper due to short t½, high potency, and strong interdose withdrawal. Always cross-taper to diazepam first."}]}]}, {"title": "Delirium Tremens (DT)", "discussion": "A patient with known AUD develops agitation and confusion on hospital day 3 but has no tremor or tachycardia. What is your differential diagnosis, and how does the absence of autonomic features change your approach?", "children": [{"title": "Epidemiology & Mortality", "children": [{"title": "Lifetime risk in alcohol-dependent individuals: 5–10%; only ~5% of AWS cases progress to DT"}, {"title": "Untreated mortality: up to 20%; modern ICU-treated: 1–5%"}, {"title": "Higher rates: middle-aged males, multiple comorbidities, long-term heavy use, homelessness"}]}, {"title": "Cardinal Features", "children": [{"title": "Delirium: fluctuating consciousness, disorientation, perceptual disturbances, memory deficits"}, {"title": "Autonomic storm: tachycardia >100, hypertension SBP >150, diaphoresis, hyperthermia (>38°C in severe)"}, {"title": "Perceptual: visual hallucinations (insects, animals, small moving objects), tactile ('bugs crawling'), auditory"}, {"title": "Onset 48–72h (can delay to 5–7 days with concomitant BZDs); duration 1–8 days"}]}, {"title": "Risk Factor Table", "children": [{"title": "Prior DT (OR >500) — single most powerful predictor"}, {"title": "Prior alcohol-induced psychosis (OR 74.6)"}, {"title": "Cognitive deficits at presentation (OR 12.5)"}, {"title": "Continuous heavy drinking pattern (OR 4.67 vs. binge)"}, {"title": "Age >50, >20 years of alcohol use, 48–72h since last drink"}, {"title": "Thrombocytopenia, hypokalemia/hypomagnesemia, structural brain lesion, elevated homocysteine"}]}, {"title": "ICU Management", "children": [{"title": "Tier 1 — Front-line", "children": [{"title": "Phenobarbital (preferred): 10 mg/kg IV load → 130 mg IV q30min to RASS 0 to −1; total 10–20 mg/kg typical"}, {"title": "BZDs (alternative): IV diazepam escalating 10→20→20→40mg q5–10min; some severe DT requires >200–2000mg total diazepam"}, {"title": "BZD-resistant DT: switch to phenobarbital as primary agent"}]}, {"title": "Tier 2 — Adjunctive/Rescue", "children": [{"title": "Dexmedetomidine: 0.2–0.7 μg/kg/h; reduces BZD requirements; does NOT prevent seizures (critical limitation)"}, {"title": "Propofol: ≤4 mg/kg/h for intubated patients; effective for refractory cases"}, {"title": "Ketamine: 1.5–2 mg/kg IV dissociative for extreme agitation; bridge while loading phenobarbital"}, {"title": "Haloperidol: 5mg IV/IM q4–8h for hallucinations; caution — lowers seizure threshold, QTc prolongation; adjunct only"}]}]}, {"title": "Differential Diagnosis", "children": [{"title": "Hepatic encephalopathy: jaundice, asterixis, elevated ammonia, no sympathetic hyperactivity, responds to lactulose"}, {"title": "Wernicke's encephalopathy: ataxia, ophthalmoplegia/nystagmus, confusion; responds to thiamine"}, {"title": "CNS infection (meningitis/encephalitis): check CSF"}, {"title": "Nonconvulsive status epilepticus (NCSE): critically underdiagnosed in ICU delirium — get EEG"}, {"title": "Edge Case — NARD: when agitation persists beyond 20–30 mg/kg phenobarbital without classic DT features → reconsider diagnosis; transition to dex/haloperidol and pursue workup"}]}]}, {"title": "Withdrawal Seizures", "discussion": "An intern starts a phenytoin load for a patient having their first AWS seizure. What do you tell them, and why?", "children": [{"title": "Pathophysiology", "children": [{"title": "GABA-A hypofunction: downregulated receptors fail to provide normal inhibitory tone"}, {"title": "NMDA hyperfunction: upregulated receptors + disrupted Mg²⁺ block → excess Ca²⁺ influx"}, {"title": "Hippocampus particularly vulnerable: abundant NMDA receptors + LTP machinery → seizure generation locus"}, {"title": "Kindling sensitization: each prior episode lowers seizure threshold progressively"}]}, {"title": "Clinical Features", "children": [{"title": "Peak risk 24–48h after last drink (range: 2h to 7 days)"}, {"title": "Almost exclusively generalized tonic-clonic (GTC); focal features warrant structural workup"}, {"title": "Usually brief (<60–90s) with short postictal period"}, {"title": "~30% recurrence if untreated; status epilepticus rare but life-threatening"}]}, {"title": "CRITICAL: Phenytoin Is Ineffective", "children": [{"title": "Phenytoin blocks sodium channels — wrong mechanism for GABA-A/NMDA-driven seizures"}, {"title": "Giving phenytoin/fosphenytoin for AWS seizure = management error"}, {"title": "AWS seizures require GABAergic agents: BZDs or phenobarbital"}]}, {"title": "Treatment & Prophylaxis", "children": [{"title": "Acute seizure: IV lorazepam 2–4mg or IV diazepam 5–10mg; if >5min → phenobarbital 15–20 mg/kg IV"}, {"title": "Post-seizure: phenobarbital preferred (15–20 mg/kg achieves anticonvulsant levels >15 μg/mL; long t½ prevents recurrence)"}, {"title": "Prophylaxis indications: prior AWS seizures, prior DT, PAWSS ≥4, concurrent BZD dependence"}, {"title": "BZDs reduce seizure incidence ~80% vs. placebo (ASAM 2020 Evidence A)"}, {"title": "Neurological workup if: >6 seizures, focal seizures, status epilepticus, TBI history, failure to return to baseline after 8h adequate loading"}]}]}, {"title": "Combined Alcohol + Benzodiazepine Withdrawal", "discussion": "A patient on therapeutic lorazepam 2mg TID who drinks heavily presents 'mildly unwell' on day 1. Is safe outpatient detox possible? Why or why not?", "children": [{"title": "Why This Is the Highest-Risk Scenario", "children": [{"title": "Additive GABA-A neuroadaptation: combined exposure → more profound receptor downregulation than either alone"}, {"title": "Divergent timelines: alcohol peaks 24–72h; BZD withdrawal (short-acting) may be simultaneous or sequential → extended complication window"}, {"title": "CIWA-Ar underestimates risk: validated for alcohol only; BZD withdrawal symptoms emerge when alcohol withdrawal is partially suppressed"}, {"title": "Seizure risk is multiplicative, not merely additive"}, {"title": "Cross-tolerance impairs BZD effectiveness: may require dramatically higher doses"}]}, {"title": "Risk Stratification", "children": [{"title": "High risk: Known BZD dependence + AUD + prior seizure/DT/age >65/severe comorbidities → ICU mandatory"}, {"title": "Very high risk: High-dose BZD (>60mg diazepam equiv/day) + significant AUD + multiple risk factors → ICU with proactive phenobarbital"}, {"title": "Moderate risk: Low-dose therapeutic BZD + moderate AUD without prior complications → inpatient with extended observation"}]}, {"title": "Management Principles", "children": [{"title": "Extended monitoring ≥7–10 days (BZD withdrawal may lag behind alcohol withdrawal)"}, {"title": "Phenobarbital preferred: dual-mechanism covers both; independent binding site active despite cross-tolerance"}, {"title": "'Deceptive improvement' at day 2–3: alcohol withdrawal resolving may mask impending BZD withdrawal peak at day 5–7"}, {"title": "Quantify BZD use precisely: collateral history, pill counts, pharmacy records, urine quant levels"}, {"title": "Pearl: Patient on alprazolam 3mg/day who drinks heavily — 'mildly unwell' on day 1 is at extremely high risk. Proactive admission + phenobarbital loading."}]}]}]}, {"id": "cat2", "name": "Neurobiology of Dependence & Withdrawal", "color": "#4ECDC4", "subtopics": [{"title": "GABA-A Receptor Pharmacology", "discussion": "Why might a patient with severe AUD require 5× the standard diazepam dose during withdrawal? Explain at the receptor level.", "children": [{"title": "Structure & Subunit Composition", "children": [{"title": "Pentameric ligand-gated Cl⁻ channel: 2α + 2β + 1γ/δ subunit (most common: α1β2γ2 — ~40% of brain GABA-A receptors)"}, {"title": "19 possible subunits: 6α, 3β, 3γ, plus δ, ε, θ, π, and 3ρ"}, {"title": "BZD site at α/γ interface — requires α1, α2, α3, or α5 (not α4/α6 = diazepam-insensitive)"}, {"title": "Barbiturate site within ion channel pore/β subunit — DISTINCT from BZD site (key to phenobarbital efficacy)"}, {"title": "Ethanol site at transmembrane α+/β− interface — separate from both BZD and barbiturate sites"}]}, {"title": "Subunit Selectivity for Clinical Effects", "children": [{"title": "α1: Sedation, hypnosis, anterograde amnesia, anticonvulsant, ataxia — most abundant; responsible for 'unwanted' BZD effects (falls, amnesia)"}, {"title": "α2: Anxiolysis (primary), myorelaxation — limbic/hippocampus/spinal cord; TARGET for anxioselective compounds"}, {"title": "α3: Anxiolysis (partial), sedation at high occupancy — reticular activating system, thalamus"}, {"title": "α5: Amnesia, sedation (partial) — hippocampus (layers II–III); key role in learning/cognition"}, {"title": "Fellow-level: TPA023 (α2/α3-selective) achieves anxiolysis without sedation in human trials — proof of pharmacological dissociation"}]}, {"title": "Chronic Alcohol-Induced Changes", "children": [{"title": "α1 downregulation: protein/mRNA decreased in hippocampus, cortex, amygdala → reduced BZD sensitivity (cross-tolerance basis)"}, {"title": "α4 upregulation: normally low-expression; part of diazepam-INSENSITIVE extrasynaptic receptors → tonic inhibition disruption"}, {"title": "δ subunit reduction: extrasynaptic α4/α6+δ receptors mediate tonic inhibitory current → reduced tonic inhibition → hyperexcitability"}, {"title": "Receptor trafficking: PKCγ/PKCε alter phosphorylation → reduced α1 surface expression; PKA vs PKC have opposing effects on α4 trafficking"}, {"title": "Regional heterogeneity: hippocampus (α1↓, δ↓, α4↑ → seizure-prone); amygdala (complex paradoxical sensitization); NAc (α4↓); VTA (no change)"}]}]}, {"title": "Glutamate/NMDA Receptor Upregulation", "discussion": "How does the NMDA receptor system explain both withdrawal seizures AND long-term cognitive decline in AUD? Walk through the mechanistic link.", "children": [{"title": "Acute Ethanol Effects on NMDA", "children": [{"title": "Potent non-competitive NMDA antagonist at clinically relevant concentrations (10–100 mM)"}, {"title": "Preferential NR2B (GluN2B) subunit binding → inhibits cation current (Na⁺, K⁺, Ca²⁺)"}, {"title": "At intoxicating BAL: 50–70% inhibition of NMDA-mediated EPSCs"}]}, {"title": "Chronic Upregulation Mechanisms", "children": [{"title": "49% increase in ³H-MK-801 binding after chronic exposure (Gulya et al.)"}, {"title": "NR2B subunit upregulation: prolonged opening times, greater Ca²⁺ permeability → enhanced excitotoxic potential"}, {"title": "NR1 (essential subunit) expression increases in multiple regions"}, {"title": "Fyn kinase phosphorylates NR2B at Tyr1472 → increased receptor trafficking to synapse + prolonged channel opening"}]}, {"title": "Homocysteine-NMDA Connection", "children": [{"title": "Chronic alcohol → folate/B12 depletion → hyperhomocysteinemia"}, {"title": "Homocysteine acts as agonist at NMDA glycine co-agonist site (as homocysteic acid)"}, {"title": "High plasma homocysteine = validated predictor of AWS seizures AND brain damage"}, {"title": "Clinical link between nutritional deficiency and neurological complications"}]}, {"title": "Excitotoxicity in Withdrawal", "children": [{"title": "Cessation → 'unmasked' upregulated NMDA → massive excitatory surge → Ca²⁺ overload"}, {"title": "Ca²⁺ overload → mitochondrial dysfunction → apoptosis → progressive cortical atrophy"}, {"title": "Mechanisms: withdrawal-related neurodegeneration, hippocampal volume loss (MRI studies), cognitive deficits correlating with withdrawal episode count"}, {"title": "CSF evidence: elevated aspartate, glycine, NAAG; reduced GABA in alcohol-dependent patients vs. controls"}]}]}, {"title": "Allostatic Model & Opponent-Process Theory", "discussion": "Explain to a first-year resident why a patient with AUD continues to drink despite severe consequences, using the allostatic model. How does this reframe 'willpower' narratives?", "children": [{"title": "Opponent-Process Framework (Solomon & Corbit, 1974)", "children": [{"title": "a-process: initial drug effect (euphoria, anxiolysis, sedation) — rapid onset; habituates with repeated exposure"}, {"title": "b-process: slowly developing counteradaptation — slow onset/decay; SENSITIZES (grows larger) with repeated exposure"}, {"title": "Clinical: drug use transitions from positive reinforcement (seeking pleasure) → negative reinforcement (avoiding withdrawal/dysphoria)"}]}, {"title": "Allostatic Model (Koob & Le Moal, 2001/2008)", "children": [{"title": "Homeostasis: system returns to baseline after perturbation; Allostasis: new set point ('stability through change') at metabolic/hedonic cost"}, {"title": "Brain's reward threshold chronically elevates → pleasure requires more drug; anti-reward system chronically activated → negative affect = new 'baseline'"}, {"title": "Organism uses drugs not for euphoria but to restore function to pathologically elevated set point"}, {"title": "Koob GF, Le Moal M. Neuropsychopharmacology 2001;24(2):97-129"}]}, {"title": "Within-System Neuroadaptations", "children": [{"title": "Dopamine: mesolimbic DA release falls 20–40% during withdrawal; VTA firing rate decreases; D₂ receptor availability ↓16–21% (PET)"}, {"title": "GABA: reduced receptor sensitivity within reward circuits; paradoxical VTA interneuron effects"}, {"title": "Endogenous opioids: reduced μ-receptor function in NAc → allostatic reward threshold shift"}, {"title": "CREB/dynorphin: repeated cAMP → CREB activation → dynorphin (κ-opioid agonist) production → dysphoria (molecular substrate of tolerance)"}]}, {"title": "Between-System Neuroadaptations", "children": [{"title": "CRF ↑↑ in CeA/BNST → anxiety, aversion, stress-induced relapse (PRIMARY between-system mediator)"}, {"title": "Noradrenaline ↑ in BNST → hypervigilance, anxiety, panic"}, {"title": "Dynorphin ↑ in NAc/amygdala → dysphoria, anhedonia"}, {"title": "NPY ↓ in CeA → loss of anti-stress buffer → anxiety"}, {"title": "Orexin ↑ in lateral hypothalamus → craving, insomnia, arousal"}, {"title": "Extended amygdala (CeA + BNST + medial NAc shell) = integration hub for negative affect and withdrawal motivation"}]}]}, {"title": "Reward Circuitry — Mesolimbic System", "discussion": "A patient says 'I know drinking is killing me but I can't stop.' How does PFC dysfunction and the shift from goal-directed to habitual behavior explain this?", "children": [{"title": "Mesocorticolimbic Dopamine System", "children": [{"title": "VTA: origin of mesolimbic/mesocortical DA projections (~60,000 DA neurons in humans)"}, {"title": "NAc shell: acute reward responses, drug-seeking initiation; NAc core: conditioned incentive salience, cue-triggered craving"}, {"title": "PFC: executive control, impulse inhibition, decision-making, salience attribution"}, {"title": "Amygdala: emotional memory, conditioned drug responses; Hippocampus: context-dependent drug memories"}]}, {"title": "Acute Alcohol Effects on DA", "children": [{"title": "GABA-A disinhibition in VTA: ethanol → GABA on interneurons → DA neuron disinhibition → increased firing/release"}, {"title": "Acetaldehyde: generated in VTA by catalase → sufficient for NAc DA release; blocking catalase blocks the signal"}, {"title": "Opioid system: ethanol → β-endorphin → μ-receptor on GABAergic interneurons → DA disinhibition"}]}, {"title": "Chronic Dopaminergic Dysregulation", "children": [{"title": "VTA: decreased spontaneous firing, reduced burst firing (reward signaling mode)"}, {"title": "NAc/Striatum: D₂ receptor density ↓16–21% (PET); reduced amphetamine-induced DA release in limbic striatum"}, {"title": "Withdrawal hypodopaminergia: NAc extracellular DA falls 20–40% → anhedonia, dysphoria, craving"}]}, {"title": "PFC Dysfunction ('Hijacking' Model)", "children": [{"title": "Reduced D₂/D₄ receptor function (functional uncoupling, not expression loss)"}, {"title": "Reduced gamma oscillations: critical for cognitive flexibility (mediated by fast-spiking interneurons requiring D₂)"}, {"title": "Impaired top-down inhibitory control → loss of behavioral flexibility, impaired impulse inhibition"}, {"title": "Reduced PFC volume correlates with relapse probability in imaging studies"}, {"title": "In addiction: behavioral control shifts from prefrontal (goal-directed, reflective) → striatal (habitual, automatic) = neurobiological basis of 'loss of control'"}]}]}, {"title": "Neuroinflammation & Neuroimmune Signaling", "discussion": "Why might an anti-inflammatory medication reduce alcohol craving? What is the neurobiological rationale, and what are the therapeutic implications?", "children": [{"title": "TLR4/HMGB1/NF-κB Signaling Axis", "children": [{"title": "Ethanol activates TLR4 on microglia → HMGB1 release → amplifies NF-κB → pro-inflammatory cytokines (IL-1β, TNF-α, IL-6, CCL2)"}, {"title": "HMGB1 and TLR7 protein levels in hippocampus correlate positively with total drinking years (Coleman et al., 2017)"}, {"title": "Chronic pro-inflammatory gene expression persists ≥1 week into abstinence; LPS-induced changes persist months"}]}, {"title": "NLRP3 Inflammasome", "children": [{"title": "Activated by chronic ethanol; increased immunoreactivity in post-mortem AUD brain samples"}, {"title": "NLRP3 inhibition reduces inflammation AND alcohol consumption in preclinical models"}]}, {"title": "Microglia Activation", "children": [{"title": "Morphological transformation (ramified → ameboid) after chronic alcohol"}, {"title": "Pro-inflammatory cytokine release, synaptic loss, neurotoxicity"}, {"title": "Majchrowicz model: hippocampal microglia death + necroinflammation (not just activation)"}]}, {"title": "Liver-Brain Axis", "children": [{"title": "AUD → hepatic inflammation → systemic cytokines → BBB compromise → CNS immune activation"}, {"title": "IL-17A: promotes glial activation; pharmacological blockade restores brain function AND reduces voluntary consumption"}, {"title": "Vicious cycle between hepatic and neurological inflammation"}]}, {"title": "Clinical Significance", "children": [{"title": "Neuroinflammatory state persists into abstinence → contributes to PAWS and relapse vulnerability"}, {"title": "Novel targets: TLR4 antagonists, NLRP3 inhibitors, IL-1R antagonists, anti-TNF agents under investigation"}, {"title": "Overlap with PTSD/MDD via shared neuroimmune pathways"}]}]}, {"title": "Cross-Tolerance Between Alcohol & Benzodiazepines", "discussion": "Why is phenobarbital more effective than benzodiazepines in a patient with combined alcohol and benzodiazepine tolerance? Explain the receptor-level mechanism.", "children": [{"title": "Molecular Basis of Cross-Tolerance", "children": [{"title": "Shared GABA-A neuroadaptation: chronic alcohol → α1 downregulation → reduced BZD site efficacy"}, {"title": "Cross-tolerance most pronounced for α1-mediated effects (sedation, hypnosis)"}, {"title": "CIE-treated rats: decreased sensitivity to diazepam at both synaptic (phasic) and extrasynaptic (tonic) currents"}]}, {"title": "BZD vs. Barbiturate Mechanism Distinction", "children": [{"title": "BZDs: bind α/γ interface → allosteric potentiation of Cl⁻ conductance (REQUIRES GABA for effect)"}, {"title": "Phenobarbital: binds transmembrane pore/β subunit → can DIRECTLY OPEN channels at high concentrations (GABA-independent)"}, {"title": "This dual mechanism makes phenobarbital effective even when α1 is downregulated and BZDs lose efficacy"}]}, {"title": "Clinical Implications", "children": [{"title": "AWS treatment: standard BZD doses may be woefully inadequate in AUD patients; some require hundreds of mg diazepam equivalents"}, {"title": "Perioperative: AUD patients require higher anesthetic induction doses"}, {"title": "ICU sedation: unusually high BZD infusion requirements"}, {"title": "Outpatient: BZDs less effective anxiolytics in AUD patients → faster physiological dependence at needed doses"}, {"title": "BZD-resistant DT: phenobarbital is agent of choice (different binding site)"}]}]}, {"title": "Kindling & Sensitization Models", "discussion": "Should we pharmacologically treat mild alcohol withdrawal to prevent kindling? Present arguments for both sides based on the evidence.", "children": [{"title": "Molecular Mechanisms", "children": [{"title": "NMDA sensitization: cumulative receptor density/function increase with each withdrawal episode"}, {"title": "VGCC upregulation: L-type channels; calcium dysregulation persists months after exposure"}, {"title": "Progressive GABA-A loss: incremental α1 surface receptor internalization with each detox"}]}, {"title": "Amygdala Kindling", "children": [{"title": "Repeated withdrawal → amygdala hyperexcitability → enhanced fear/anxiety responses"}, {"title": "Impaired facial emotion recognition (lateralized amygdalar dysfunction) in binge drinkers with multiple detoxes"}, {"title": "Persistent hyperreactivity to stress cues → relapse vulnerability"}]}, {"title": "Clinical Evidence", "children": [{"title": "Brown et al. (1988): 48% of seizure patients had ≥5 prior withdrawals vs. 12% in controls"}, {"title": "Progressive intensity AND duration of withdrawal seizures with increasing episode count"}, {"title": "Cognitive deficits in binge drinkers attributable to neural kindling in hippocampal circuits"}]}, {"title": "Anti-Kindling Pharmacotherapy", "children": [{"title": "Valproic acid, carbamazepine may reduce AWS severity on subsequent episodes (anticonvulsant effects on limbic hyperexcitability)"}, {"title": "Evidence not as strong as BZDs/phenobarbital but provides rationale for treating even mild withdrawal"}, {"title": "Clinical implication: number of prior detox episodes = clinical vital sign"}]}]}]}, {"id": "cat3", "name": "Acute Management", "color": "#FFD93D", "subtopics": [{"title": "Symptom-Triggered vs. Fixed-Dose Protocols", "discussion": "A hospitalized patient with CIWA-Ar of 6 and a history of one prior withdrawal seizure — would you use symptom-triggered therapy? Why or why not?", "children": [{"title": "Symptom-Triggered Therapy (STT)", "children": [{"title": "Doses BZDs based on repeated CIWA-Ar assessments; medication only when score exceeds threshold (usually ≥8–10)"}, {"title": "Saitz et al. (1994): STT shortened treatment (9h vs. 68h) and reduced BZD use (100mg vs. 425mg chlordiazepoxide)"}, {"title": "Daeppen et al. (2002): only 39% of STT patients needed any medication vs. 100% FDR"}, {"title": "2025 HAES study: STT reduced total BZD dose >80% and shortened detox >75% vs. FDR"}]}, {"title": "Fixed-Dose Regimens (FDR)", "children": [{"title": "Scheduled taper (e.g., chlordiazepoxide 25–100mg q6h × 4 doses, tapering over 5–7 days) with PRN add-ons"}, {"title": "Safer for patients who CANNOT participate in monitoring: sedated, intubated, encephalopathic, unreliable historians"}, {"title": "Required when: prior seizure history (seizures can occur without CIWA-Ar escalation), ICU/ventilated patients"}]}, {"title": "When STT Is CONTRAINDICATED", "children": [{"title": "Prior seizure history — seizures can occur at low CIWA-Ar scores due to kindling"}, {"title": "Cannot participate in CIWA-Ar assessment (altered sensorium, intubated)"}, {"title": "Concurrent BZD dependence (CIWA-Ar underestimates risk)"}, {"title": "Pearl: A 'low' CIWA-Ar in a patient with 5+ prior detoxes does NOT mean low risk — kindling means seizures occur at lower thresholds"}]}]}, {"title": "Benzodiazepine Selection", "discussion": "A patient with cirrhosis (Child-Pugh C) presents with moderate AWS. Which benzodiazepine do you choose and why?", "children": [{"title": "Diazepam", "children": [{"title": "t½ 20–100h (+ active metabolites up to 200h); PO/IV; most flexible; self-tapering"}, {"title": "Preferred for loading dose protocol (Sellers protocol: 20mg PO q2h until sedation)"}, {"title": "Avoid in hepatic failure — active metabolite (desmethyldiazepam) accumulates"}]}, {"title": "Chlordiazepoxide", "children": [{"title": "t½ 10–30h (+ active metabolites); PO only; historically first-line"}, {"title": "Long t½ provides smooth pharmacokinetics; avoid in elderly/hepatic failure"}]}, {"title": "Lorazepam", "children": [{"title": "t½ 10–20h; NO active metabolites; PO/IV/IM; preferred in hepatic dysfunction, elderly, COPD"}, {"title": "Phase II conjugation (glucuronidation) — not CYP-dependent → safer in liver disease"}, {"title": "IM route available (unique advantage in agitated patients without IV access)"}]}, {"title": "Oxazepam", "children": [{"title": "t½ 5–15h; NO active metabolites; PO only; slowest onset; safest in hepatic failure"}, {"title": "Less abuse potential; purely renally cleared; useful in elderly and liver disease"}]}]}, {"title": "Phenobarbital Protocol", "discussion": "What are the advantages of phenobarbital over benzodiazepines for AWS management? When should you reach for it first?", "children": [{"title": "Dual Mechanism of Action", "children": [{"title": "GABA-A positive allosteric modulator at barbiturate site (distinct from BZD site)"}, {"title": "Can directly open Cl⁻ channels at high concentrations — GABA-independent action"}, {"title": "Glutamate receptor antagonism — addresses both halves of the GABA↓/glutamate↑ imbalance"}]}, {"title": "Dosing Protocol", "children": [{"title": "Loading: 10 mg/kg IV (achieves ~15 μg/mL serum level)"}, {"title": "Titration: 130 mg IV q30min PRN to RASS 0 to −1"}, {"title": "Post-seizure: escalate to ≥15 mg/kg total cumulative"}, {"title": "Soft stop: 20 mg/kg; hard stop: 30 mg/kg; therapeutic level 10–40 μg/mL"}, {"title": "t½ 80–120h → auto-tapering with minimal rebound"}]}, {"title": "Evidence & Advantages", "children": [{"title": "Meta-analysis (Cureus 2023): reduces mean hospital LOS by 2.6 days vs. BZDs alone"}, {"title": "More predictable pharmacodynamics than BZDs (5–25 mg/kg range vs. orders-of-magnitude BZD range)"}, {"title": "Active at GABA-A even in BZD-tolerant patients (independent binding site)"}, {"title": "Less delirium and agitation than BZDs in some series"}]}, {"title": "Contraindications", "children": [{"title": "Hepatic encephalopathy — use BZDs/valproate instead"}, {"title": "Severe respiratory depression risk without airway management capability"}, {"title": "Requires monitoring: respiratory rate, O₂ sat, level of consciousness"}]}]}, {"title": "Thiamine & Nutritional Repletion", "discussion": "Why must thiamine be given BEFORE glucose in a malnourished AUD patient? What is the biochemical basis?", "children": [{"title": "Wernicke Encephalopathy Prevention", "children": [{"title": "Classic triad: altered mental status + ataxia + oculomotor dysfunction — but FULL triad present in only ~10% of cases"}, {"title": "Caine criteria (more sensitive): 2 of 4 — dietary deficiency, oculomotor abnormalities, cerebellar dysfunction, altered mental status/memory impairment"}, {"title": "CRITICAL: administer thiamine BEFORE glucose — glucose metabolism consumes thiamine as cofactor; giving glucose first in thiamine-depleted patient precipitates acute Wernicke's"}]}, {"title": "Thiamine Dosing by Risk", "children": [{"title": "High risk/suspected Wernicke's: 500mg IV q8h × 3 doses (then 250mg IV/IM daily × 3–5 days)"}, {"title": "Moderate risk (any AUD admission): 100mg IV/IM daily × 3 days, then 100mg PO daily"}, {"title": "Prophylaxis: 100mg PO daily for all patients with AUD"}, {"title": "Oral absorption is saturable (~4.5mg per dose max) — IV/IM required for therapeutic dosing"}]}, {"title": "Electrolyte Repletion", "children": [{"title": "Magnesium: target >2.0 mEq/L — Mg²⁺ required for NMDA receptor voltage-dependent block; hypomagnesemia enhances excitotoxicity"}, {"title": "Potassium: hypokalemia lowers seizure threshold"}, {"title": "Phosphate: monitor for refeeding syndrome in severely malnourished patients"}, {"title": "Folate: repletes folate stores depleted by alcohol → reduces homocysteine (NMDA co-agonist)"}]}]}, {"title": "Special Populations", "discussion": "A pregnant patient at 28 weeks with AUD presents in moderate withdrawal. How does pregnancy change your pharmacotherapy choices?", "children": [{"title": "Pregnancy", "children": [{"title": "Untreated AWS carries fetal risk (seizures, autonomic instability → placental insufficiency)"}, {"title": "BZDs are Category D but short-term use for AWS is generally accepted as benefit > risk"}, {"title": "Lorazepam preferred (short-acting, no active metabolites)"}, {"title": "WFSBP guidelines: fetal monitoring during treatment; goal is shortest effective treatment course"}, {"title": "Naltrexone is Category C; acamprosate Category C; disulfiram Category C — limited data on all in pregnancy"}]}, {"title": "Hepatic Impairment / Cirrhosis", "children": [{"title": "Lorazepam or oxazepam (Phase II glucuronidation — NOT CYP-dependent)"}, {"title": "Avoid diazepam/chlordiazepoxide (active metabolites accumulate → prolonged sedation, respiratory depression)"}, {"title": "Critical distinction: hepatic encephalopathy vs. DT — both cause confusion in cirrhotic patients; check ammonia, asterixis, response to lactulose"}]}, {"title": "Elderly (>65)", "children": [{"title": "Reduced GABAergic reserve, impaired drug metabolism, increased CNS sensitivity"}, {"title": "Start at 50% of standard doses; longer monitoring periods"}, {"title": "Higher fall risk, delirium risk; prefer lorazepam or oxazepam"}]}, {"title": "Polysubstance Use", "children": [{"title": "Concurrent opioid use: naloxone at bedside; consider buprenorphine for OUD stabilization"}, {"title": "Concurrent stimulant use: may mask withdrawal symptoms; extended observation"}, {"title": "Concurrent BZD use: see Combined Withdrawal section — phenobarbital preferred, extended monitoring"}]}]}, {"title": "ASAM Criteria — Levels of Care", "discussion": "A patient with CIWA-Ar of 11, no prior seizures or DT, stable housing, and a supportive partner — what ASAM level of care is appropriate?", "children": [{"title": "Level 1 — Outpatient", "children": [{"title": "1-WM (withdrawal management): CIWA-Ar ≤8, no risk factors, reliable support person, daily follow-up capability"}, {"title": "1.0 Long-Term Remission Monitoring (new in 4th edition): ongoing low-intensity support"}]}, {"title": "Level 2 — Intensive Outpatient / Partial Hospitalization", "children": [{"title": "2-WM: moderate withdrawal with reliable monitoring; 2.1 IOP: 9+ hours/week; 2.5 PHP: 20+ hours/week structured programming"}]}, {"title": "Level 3 — Residential / Inpatient", "children": [{"title": "3.2-WM: clinically managed residential withdrawal; 3.5 High-intensity residential"}, {"title": "3.7 Medically monitored inpatient: 24h nursing, physician available; for moderate-severe withdrawal, medical comorbidities"}, {"title": "3.7-WM: medically monitored inpatient withdrawal management"}]}, {"title": "Level 4 — Medically Managed Intensive Inpatient", "children": [{"title": "4-WM: 24h medical/nursing care; ICU-level capability for severe/complicated withdrawal"}, {"title": "4.0: Acute medical/psychiatric needs requiring daily physician management"}, {"title": "4-Psychiatric: severe psychiatric comorbidity requiring inpatient psychiatric stabilization"}]}]}]}, {"id": "cat4", "name": "Long-Term Treatment & MAT", "color": "#6BCB77", "subtopics": [{"title": "Naltrexone — Oral & Extended-Release", "discussion": "A patient with AUD and well-controlled chronic hepatitis C asks about naltrexone. What do you counsel them regarding hepatotoxicity?", "children": [{"title": "Mechanism", "children": [{"title": "μ-opioid receptor antagonist → blocks alcohol-induced β-endorphin → DA release chain in VTA → blunts reward"}, {"title": "Reduces 'high' from drinking; does NOT cause aversion; works best in combination with continued psychosocial treatment"}]}, {"title": "COMBINE Study Results", "children": [{"title": "Largest AUD pharmacotherapy RCT (n=1,383). Naltrexone 100mg/day reduced heavy drinking days vs. placebo"}, {"title": "Combination with Medical Management (brief visits) was most effective; full CBI (behavioral intervention) did not significantly add to naltrexone benefit"}, {"title": "Effect size modest but clinically meaningful: NNT ~8 for reducing heavy drinking"}]}, {"title": "Oral vs. Extended-Release (Vivitrol)", "children": [{"title": "Oral: 50mg daily; requires daily adherence (major limitation: non-adherence rates 50–80%)"}, {"title": "XR-NTX (Vivitrol): 380mg IM monthly; eliminates adherence issue; 2025 RCT shows comparable/superior outcomes"}, {"title": "XR-NTX requires 7–10 day opioid-free period before injection (precipitated withdrawal risk)"}]}, {"title": "OPRM1 Pharmacogenomics", "children": [{"title": "OPRM1 A118G polymorphism (Asp40 variant): carriers show enhanced naltrexone response"}, {"title": "May predict who benefits most from naltrexone — emerging precision medicine application"}, {"title": "Not yet standard of care for clinical decision-making but increasingly studied"}]}, {"title": "Hepatotoxicity — Clarified", "children": [{"title": "FDA black box warning based on high-dose (300mg) studies in obesity; at 50mg, clinically significant hepatotoxicity is rare"}, {"title": "Can be used in compensated liver disease including well-managed hepatitis C"}, {"title": "Monitor LFTs at baseline and periodically; contraindicated in acute hepatic failure"}, {"title": "Absolute contraindication: current opioid use (precipitated withdrawal) or opioid dependence requiring agonist therapy"}]}]}, {"title": "Acamprosate", "discussion": "Why did acamprosate fail to show benefit in the COMBINE trial, despite positive European RCTs? What does this tell us about AUD pharmacotherapy trial design?", "children": [{"title": "Mechanism — Glutamate Stabilizer", "children": [{"title": "Modulates NMDA and mGluR5 glutamate receptors → restores balance between excitatory and inhibitory neurotransmission"}, {"title": "MRS evidence: normalizes elevated glutamate levels in anterior cingulate cortex during early abstinence"}, {"title": "Does NOT produce aversion or block reward; thought to reduce 'protracted withdrawal' symptoms that drive relapse"}]}, {"title": "Efficacy Data", "children": [{"title": "European RCTs: significant reduction in return to drinking vs. placebo; NNT ~9"}, {"title": "COMBINE trial (US): acamprosate did NOT separate from placebo — likely due to high dropout, medical management protocol differences, different patient populations"}, {"title": "Meta-analyses: modest but consistent benefit for maintaining abstinence; most effective in patients already achieving initial abstinence"}]}, {"title": "Dosing & Renal Considerations", "children": [{"title": "Standard: 666mg TID (2 tablets TID) — compliance-challenging regimen"}, {"title": "Renal: reduce to 333mg TID if CrCl 30–50 mL/min; CONTRAINDICATED if CrCl <30"}, {"title": "No hepatic metabolism — advantage in patients with liver disease"}, {"title": "Can be combined with naltrexone (different mechanisms)"}]}]}, {"title": "Disulfiram", "discussion": "A highly motivated patient with AUD and a supportive spouse asks about disulfiram. What are the prerequisites for success?", "children": [{"title": "ALDH2 Inhibition Mechanism", "children": [{"title": "Irreversibly inhibits aldehyde dehydrogenase-2 (ALDH2) → acetaldehyde accumulates → aversive reaction"}, {"title": "Disulfiram-ethanol reaction: flushing, nausea, vomiting, headache, hypotension, tachycardia; can be severe/fatal with large alcohol amounts"}, {"title": "Duration: ALDH2 inhibition persists up to 14 days after last dose"}]}, {"title": "Patient Selection & Supervised Dosing", "children": [{"title": "Requires: highly motivated patient, informed consent about DER, ability to avoid all alcohol (including hidden sources)"}, {"title": "Supervised dosing is IMPERATIVE — efficacy drops dramatically with unsupervised use (adherence ~20%)"}, {"title": "Ideal: supportive partner/family member/clinic administers daily dose"}, {"title": "Dose: 250mg daily (range 125–500mg); start after ≥12h abstinence"}]}, {"title": "Contraindications & Monitoring", "children": [{"title": "Absolute: active drinking, psychosis, severe cardiac disease, pregnancy"}, {"title": "Relative: hepatic impairment (hepatotoxic — monitor LFTs q2 weeks × 2 months, then monthly)"}, {"title": "Drug interactions: metronidazole, isoniazid, phenytoin, warfarin"}, {"title": "ACG liver disease guidance: generally avoid in decompensated cirrhosis"}]}]}, {"title": "Gabapentin for AUD", "discussion": "A patient with AUD and prominent insomnia and anxiety — is gabapentin a good choice? What about misuse liability?", "children": [{"title": "Mechanism", "children": [{"title": "Binds α2δ subunit of voltage-gated calcium channels → reduces excitatory neurotransmitter release"}, {"title": "Does NOT bind GABA-A receptors despite the name; modulates glutamate and GABA indirectly"}]}, {"title": "Mason Trial Evidence", "children": [{"title": "Mason et al. (2014): gabapentin 1800mg/day significantly increased abstinence rates and reduced heavy drinking vs. placebo"}, {"title": "Particularly effective for patients with insomnia and anxiety (direct symptomatic benefit)"}, {"title": "900mg/day showed intermediate benefit; dose-response relationship"}]}, {"title": "Misuse Liability Context", "children": [{"title": "Growing concern: gabapentin misuse reported, especially in populations with opioid/SUD histories"}, {"title": "Some states have scheduled gabapentin (Kentucky, others)"}, {"title": "Risk-benefit: significant AUD benefit in appropriate patients; monitor for misuse; avoid in patients with active polysubstance use disorder"}, {"title": "Pregabalin (Schedule V) has higher misuse liability than gabapentin"}]}]}, {"title": "Topiramate", "discussion": "How would you manage the cognitive side effects of topiramate ('Dopamax') while maintaining therapeutic efficacy for AUD?", "children": [{"title": "Multi-Mechanism Action", "children": [{"title": "GABA-A potentiation, AMPA/kainate glutamate antagonism, carbonic anhydrase inhibition, Na⁺ channel blockade, Ca²⁺ channel modulation"}, {"title": "The multiplicity of mechanisms may explain broad efficacy across craving, withdrawal symptoms, and relapse prevention"}]}, {"title": "Titration Schedule", "children": [{"title": "Start 25mg daily; increase by 25–50mg/week to target 200–300mg/day (divided BID)"}, {"title": "Slow titration is ESSENTIAL to minimize cognitive side effects"}, {"title": "Johnson et al. (2007): topiramate 300mg/day reduced heavy drinking and increased abstinent days vs. placebo"}]}, {"title": "Side Effect Management", "children": [{"title": "'Dopamax' effects: word-finding difficulty, cognitive slowing, psychomotor impairment — dose-dependent, often improve with time"}, {"title": "Paresthesias: common, usually tingling in extremities; generally tolerable"}, {"title": "Weight loss: can be advantageous in some patients; anorexia in others"}, {"title": "Metabolic acidosis: carbonic anhydrase inhibition → ↑ kidney stone risk; ensure hydration"}, {"title": "TERATOGENICITY: Category D — oral clefts; must counsel reproductive-age patients; contraception required"}]}]}, {"title": "Off-Label Agents", "discussion": "An early-onset AUD patient with prominent anxiety hasn't responded to naltrexone. What off-label option might you consider, and what's the evidence?", "children": [{"title": "Baclofen (GABA-B Agonist)", "children": [{"title": "GABA-B agonist → reduces DA release in NAc → reduces craving; also anxiolytic"}, {"title": "French studies: benefit in AUD patients with anxiety; approved in France for AUD (2014)"}, {"title": "Best evidence: AUD + anxiety subgroup; narrow therapeutic window; doses 30–80mg/day"}, {"title": "Risks: sedation, withdrawal syndrome if stopped abruptly, seizures in overdose"}]}, {"title": "Ondansetron (5-HT3 Antagonist)", "children": [{"title": "Efficacy appears limited to EARLY-ONSET AUD (before age 25) with possible serotonergic genetic variants"}, {"title": "Mechanism: blocks 5-HT3 mediated DA release in mesolimbic system"}, {"title": "Johnson et al.: 4 μg/kg BID effective in early-onset AUD; no benefit in late-onset"}, {"title": "Currently off-label; dose much lower than antiemetic doses"}]}, {"title": "Varenicline (α4β2 Nicotinic Partial Agonist)", "children": [{"title": "Primarily for tobacco cessation; shows benefit for DUAL tobacco + AUD (common comorbidity)"}, {"title": "Partial agonist at nicotinic receptors → modulates mesolimbic DA; may reduce alcohol reward"}, {"title": "Litten et al. (2013): reduced alcohol consumption in heavy drinkers"}]}]}, {"title": "Psychosocial Interventions", "discussion": "A patient refuses all medications but is willing to engage in therapy. Which evidence-based psychosocial approach has the strongest support, and how would you present the options?", "children": [{"title": "Motivational Enhancement Therapy (MET/MI)", "children": [{"title": "Non-confrontational, patient-centered; explores ambivalence about change"}, {"title": "COMBINE: Medical Management with brief MI sessions was effective even without pharmacotherapy"}, {"title": "Project MATCH: 4 sessions of MET matched outcomes of 12 sessions of CBT for some patient profiles"}, {"title": "Ideal for: pre-contemplation/contemplation stages; treatment engagement; concurrent with MAT"}]}, {"title": "Cognitive-Behavioral Therapy (CBT)", "children": [{"title": "Skill-based: identifies triggers, develops coping strategies, relapse prevention planning"}, {"title": "Strong evidence base; durable effects beyond treatment period (skills persist)"}, {"title": "12–16 sessions typical; can be individual or group format"}]}, {"title": "12-Step Facilitation (TSF)", "children": [{"title": "Structured approach to facilitate engagement with AA/NA/mutual aid"}, {"title": "Project MATCH: TSF produced higher rates of continuous abstinence at 3-year follow-up than CBT or MET"}, {"title": "Active involvement (not just attendance) predicts better outcomes"}]}, {"title": "Contingency Management (CM)", "children": [{"title": "Tangible reinforcement for objective evidence of abstinence (negative UDS, breathalyzer)"}, {"title": "Strongest effect sizes of any psychosocial intervention in addiction literature"}, {"title": "Implementation barriers: cost, perceived ethics of 'paying patients to stay sober'"}, {"title": "VA system: successful CM programs for stimulant use disorders; expanding to AUD"}]}, {"title": "Integrated Treatment for Co-Occurring Disorders", "children": [{"title": "AUD + MDD: treat both simultaneously; SSRIs safe with MAT; avoid BZDs"}, {"title": "AUD + PTSD: trauma-focused therapy (PE, CPT) concurrent with AUD treatment; emerging evidence for integrated protocols"}, {"title": "AUD + Bipolar: mood stabilizers first-line (lithium, valproate); naltrexone safe to add"}, {"title": "'No wrong door' principle: treat the patient presenting to you, regardless of which disorder brought them in"}]}]}]}, {"id": "cat5", "name": "Recovery & Outcomes", "color": "#9B59B6", "subtopics": [{"title": "Natural History of AUD & BUD", "discussion": "A patient asks 'What are my chances of staying sober?' How do you provide an honest, evidence-based, and hopeful answer?", "children": [{"title": "Relapse Rates", "children": [{"title": "1-year relapse: ~60–80% without treatment; ~40–60% with MAT + psychosocial treatment"}, {"title": "Relapse rates decrease with duration of sustained remission (< 1 year: highest risk; > 5 years: much lower)"}, {"title": "Framing: relapse is common but NOT inevitable; each period of abstinence provides neurobiological recovery"}]}, {"title": "Course Typologies", "children": [{"title": "Chronic relapsing: ~20% of AUD patients; severe, early-onset, strong genetic loading"}, {"title": "Episodic with recovery: majority pattern; alternating periods of use and remission"}, {"title": "Single episode with sustained remission: possible, especially with treatment; more common in late-onset AUD"}]}, {"title": "Prognostic Factors", "children": [{"title": "Positive: MAT adherence, strong social support, stable housing/employment, engagement with mutual aid, later onset"}, {"title": "Negative: early onset, family history, co-occurring psychiatric disorders, homelessness, polysubstance use, multiple prior relapses"}]}]}, {"title": "Brain Recovery Timeline", "discussion": "A patient in early recovery asks 'Will my brain ever be normal again?' What does the neuroimaging evidence show?", "children": [{"title": "Volumetric Recovery", "children": [{"title": "Greatest brain volume recovery occurs in first 2–4 weeks of abstinence (rapid reversal of ethanol-induced brain edema + early neuroplasticity)"}, {"title": "25 of 34 brain regions show significant volume recovery with sustained abstinence"}, {"title": "Cortical thickness: measurable recovery at 1 month, continues through 12+ months"}]}, {"title": "White Matter Recovery", "children": [{"title": "Corpus callosum: DTI studies show white matter integrity improvement beginning at 1 month, continuing 6–12 months"}, {"title": "Adolescents: NCANDA data shows faster white matter recovery than adults"}, {"title": "Frontal white matter tracts recover but may not fully normalize in severe AUD (>20 years)"}]}, {"title": "Cognitive Recovery Timeline", "children": [{"title": "Attention/processing speed: significant improvement by 2–4 weeks"}, {"title": "Executive function: 3–6 months to measurable improvement"}, {"title": "Memory/learning: 6–12 months; hippocampal volume recovery parallels cognitive gains"}, {"title": "Some deficits may persist permanently in severe AUD, especially with repeated withdrawal-related excitotoxicity (kindling)"}]}, {"title": "Dopamine System Recovery", "children": [{"title": "D₂ receptor availability: partial recovery by 1 year; may not fully normalize"}, {"title": "VTA firing rates: begin to normalize within weeks of sustained abstinence"}, {"title": "Anhedonia: typically improves over 3–12 months as reward circuitry recalibrates"}]}]}, {"title": "Post-Acute Withdrawal Syndrome (PAWS)", "discussion": "How do you differentiate PAWS from a primary depressive disorder in a patient 3 months into recovery? What are the treatment implications?", "children": [{"title": "Symptom Domains & Timeline", "children": [{"title": "Anhedonia: weeks 2–12, gradually improving; driven by mesolimbic DA hypofunction"}, {"title": "Insomnia: weeks 1–24; may persist 6+ months; due to GABA-A receptor normalization lag"}, {"title": "Cognitive impairment: weeks 2–12+; attention, memory, executive function; due to PFC recovery timeline"}, {"title": "Anxiety/irritability: weeks 2–24; CRF/noradrenergic hyperactivity persisting beyond acute withdrawal"}, {"title": "Craving: variable; can persist months; driven by conditioned cues + negative affect"}]}, {"title": "Neurobiological Correlates", "children": [{"title": "Persistent GABA-A receptor subunit normalization (α1, α4, δ recovery)"}, {"title": "Gradual NMDA receptor downregulation to baseline (may take weeks–months)"}, {"title": "Slow resolution of neuroinflammation (TLR4/NF-κB → months)"}, {"title": "Reward circuit recalibration: D₂ receptor recovery, VTA firing normalization"}]}, {"title": "Management Strategies", "children": [{"title": "Psychoeducation: normalize PAWS symptoms; set expectations for recovery timeline"}, {"title": "Exercise: strongest evidence for accelerating neuroplasticity and mood recovery"}, {"title": "Sleep hygiene: melatonin, CBT-I; avoid BZDs/z-drugs (cross-tolerance, relapse risk)"}, {"title": "Gabapentin for insomnia/anxiety component (dual benefit in early recovery)"}, {"title": "Watchful waiting for mood symptoms: if depression persists >4–6 weeks sober, treat with SSRI/SNRI"}]}]}, {"title": "Harm Reduction", "discussion": "How do you approach the 'abstinence vs. reduction' debate with a patient who says they want to cut down but not quit?", "children": [{"title": "WHO Risk Drinking Levels (RDLs)", "children": [{"title": "Low risk: ≤2 drinks/day (men), ≤1/day (women); Moderate risk: 3–4/day (men), 2–3/day (women)"}, {"title": "High risk: 5–6/day (men), 4–5/day (women); Very high risk: >6/day (men), >5/day (women)"}, {"title": "Shift from one RDL category down = clinically meaningful even without abstinence"}]}, {"title": "FDA 2025 Endorsement of Drinking Reduction", "children": [{"title": "FDA has accepted reduction in heavy drinking days as valid clinical trial endpoint since 2015; reinforced 2025"}, {"title": "ACTIVE group data: reduction in WHO risk level associated with improvements in liver enzymes, blood pressure, quality of life"}, {"title": "Paradigm shift: abstinence is ideal but not the only meaningful outcome measure"}]}, {"title": "Harm Reduction Approaches", "children": [{"title": "Naltrexone/nalmefene 'as-needed' (Sinclair method): take before anticipated drinking; reduces reward; European evidence"}, {"title": "Managed Alcohol Programs (MAP): provide controlled alcohol to homeless AUD patients to prevent dangerous withdrawal and reduce harm"}, {"title": "HaRT-A (Harm Reduction Treatment for Alcohol): patient-directed treatment goals including reduction, not only abstinence"}, {"title": "Meets patients where they are; engagement > rigid criteria; evidence shows harm reduction improves treatment retention"}]}]}, {"title": "Recovery Capital", "discussion": "Two patients with identical AUD severity have very different outcomes. How does the recovery capital model explain this divergence?", "children": [{"title": "Domains of Recovery Capital", "children": [{"title": "Social capital: supportive relationships, sober social network, family engagement, peer recovery support"}, {"title": "Physical capital: health, housing, safe environment, freedom from pain"}, {"title": "Human capital: education, employment skills, problem-solving ability, self-efficacy"}, {"title": "Cultural/community capital: cultural identity, spiritual connections, community belonging, mutual aid participation"}]}, {"title": "Clinical Application", "children": [{"title": "Assessment: quantify strengths, not just deficits; recovery capital predicts outcomes beyond diagnostic severity"}, {"title": "Treatment planning: address weakest capital domains (housing before therapy if homeless; job training if unemployed)"}, {"title": "Aligns with ASAM Dimension 6 (Recovery/Living Environment) and social determinants of health framework"}]}, {"title": "Evidence", "children": [{"title": "Higher recovery capital at treatment entry predicts sustained remission independent of treatment type"}, {"title": "Building recovery capital may be more important than specific therapeutic modality"}, {"title": "Implications for policy: investment in housing, employment, peer support = investment in recovery outcomes"}]}]}, {"title": "Outcomes Metrics", "discussion": "Should we measure treatment success as abstinence or reduction? What outcomes matter most from a clinical perspective?", "children": [{"title": "Abstinence vs. Reduction Framework", "children": [{"title": "Traditional: abstinence as only meaningful endpoint; dominates US treatment culture and 12-step philosophy"}, {"title": "Emerging: WHO RDL-based reduction as valid; FDA-accepted for clinical trials; European harm reduction model"}, {"title": "Clinical reality: any reduction in drinking is associated with dose-dependent health benefits"}]}, {"title": "Quality of Life Measures", "children": [{"title": "WHO-QOL, SF-36: capture functional improvement beyond simple drinking metrics"}, {"title": "Patient-reported outcomes: sleep, relationships, employment, legal status, self-efficacy"}, {"title": "Increasingly used in AUD clinical trials as primary or co-primary endpoints"}]}, {"title": "Biomarkers of Recovery", "children": [{"title": "GGT, MCV, CDT: traditional but lag indicators; useful for monitoring rather than acute assessment"}, {"title": "PEth (phosphatidylethanol): sensitive marker of recent heavy drinking; t½ ~4 weeks; increasingly used in clinical monitoring"}, {"title": "Liver stiffness (FibroScan): quantifies fibrosis recovery with sustained abstinence"}]}]}, {"title": "Stigma in Addiction Medicine", "discussion": "A colleague refers to a patient as 'the drunk in bed 3.' How do you address this, and why does language matter clinically?", "children": [{"title": "Stigmatizing vs. Preferred Language", "children": [{"title": "AVOID: 'alcoholic,' 'addict,' 'substance abuser,' 'clean/dirty' (urine), 'drug-seeking'"}, {"title": "PREFER: 'person with AUD,' 'person with SUD,' 'positive/negative toxicology,' 'medication for opioid use disorder'"}, {"title": "Evidence: stigmatizing language by clinicians is associated with punitive attitudes, reduced treatment engagement, and poorer clinical outcomes (Kelly et al., 2010)"}]}, {"title": "Clinical Implications of Stigma", "children": [{"title": "Internalized stigma reduces treatment-seeking by 40–60%"}, {"title": "Provider stigma: leads to undertreating pain, dismissing complaints, inadequate MAT prescribing"}, {"title": "Structural stigma: insurance barriers, prior authorization for MAT, limited treatment access"}, {"title": "42 CFR Part 2: heightened confidentiality protections for SUD records reflect historical stigma-driven discrimination"}]}, {"title": "Interventions for Clinicians", "children": [{"title": "Contact-based education: direct interaction with people in recovery reduces stigma more than didactic education"}, {"title": "Language audits: review clinical documentation for stigmatizing terminology"}, {"title": "Neuroscience framing: presenting AUD as brain disease with genetic/environmental contributions reduces blame attributions"}, {"title": "Self-reflection: examine personal biases; addiction psychiatry training itself reduces stigma over time"}, {"title": "SBIRT (Screening, Brief Intervention, Referral to Treatment): normalizes addiction screening in all medical settings"}]}]}]}];
 
 // ═══════════════════════════════════════════════════════
@@ -1436,20 +1504,11 @@ function buildTree(node, depth, catColor, path) {
   const currentPath = path ? path + ' › ' + (node.title || '') : (node.title || '');
   div.setAttribute('data-path', currentPath);
 
-  // Check for evidence link
-  let evidenceHtml = '';
   const title = node.title || '';
-  for (const key in EVIDENCE_MAP) {
-    if (title.includes(key)) {
-      const ev = EVIDENCE_MAP[key];
-      evidenceHtml = ` <a class="evidence-link" href="${ev.url}" target="_blank" title="${ev.label}">📎</a>`;
-      break;
-    }
-  }
 
   const header = document.createElement('div');
   header.className = 'node-header';
-  header.innerHTML = `<span class="node-arrow ${hasChildren ? '' : 'leaf'}">▸</span><span class="node-label">${title}${evidenceHtml}</span>`;
+  header.innerHTML = `<span class="node-arrow ${hasChildren ? '' : 'leaf'}">▸</span><span class="node-label">${title}</span>`;
   div.appendChild(header);
 
   if (hasChildren) {
@@ -1467,25 +1526,32 @@ function buildTree(node, depth, catColor, path) {
 }
 
 function renderKnowledgeTree() {
-  const container = document.getElementById('knowledge-tree');
-  container.innerHTML = '';
+  // Pre-build all category content but don't display — content area starts empty
+  window._catContent = {};
   CATEGORIES.forEach((cat, ci) => {
-    const card = document.createElement('div');
-    card.className = 'cat-card';
-    card.innerHTML = `
-      <div class="cat-header">
-        <span class="cat-dot" style="background:${cat.color}"></span>
-        <span class="cat-title">${cat.name}</span>
-        <span class="cat-arrow">▸</span>
-      </div>
-      <div class="cat-body"></div>
-    `;
-    card.querySelector('.cat-header').addEventListener('click', () => card.classList.toggle('open'));
-    const body = card.querySelector('.cat-body');
+    const cards = [];
     cat.subtopics.forEach(sub => {
-      const subNode = buildTree({title: sub.title, children: sub.children}, 2, cat.color, cat.name);
-      body.appendChild(subNode);
-      // Discussion question
+      const card = document.createElement('div');
+      card.className = 'subtopic-card';
+      card.setAttribute('data-cat-idx', ci);
+      card.innerHTML = `
+        <div class="subtopic-header">
+          <span class="subtopic-dot" style="background:${cat.color}"></span>
+          <span class="subtopic-title">${sub.title}</span>
+          <span class="subtopic-arrow">▸</span>
+        </div>
+        <div class="subtopic-body"></div>
+      `;
+      card.querySelector('.subtopic-header').addEventListener('click', () => {
+        card.classList.toggle('open');
+        updateBreadcrumb();
+      });
+      const body = card.querySelector('.subtopic-body');
+      if (sub.children) {
+        sub.children.forEach(child => {
+          body.appendChild(buildTree(child, 3, cat.color, cat.name + ' › ' + sub.title));
+        });
+      }
       if (sub.discussion) {
         const dq = document.createElement('div');
         dq.className = 'discussion-q';
@@ -1493,9 +1559,38 @@ function renderKnowledgeTree() {
         dq.innerHTML = `<span class="q-icon" style="color:${cat.color}">?</span><span class="q-text">${sub.discussion}</span>`;
         body.appendChild(dq);
       }
+      cards.push(card);
     });
-    container.appendChild(card);
+    window._catContent[ci] = cards;
   });
+  // Show empty state
+  showEmptyState();
+}
+
+function showEmptyState() {
+  const container = document.getElementById('knowledge-tree');
+  container.innerHTML = '';
+  const empty = document.createElement('div');
+  empty.className = 'explore-empty';
+  empty.innerHTML = `
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+    <p>Select a category above to explore its subtopics, or use the search bar to find content across all categories.</p>
+  `;
+  container.appendChild(empty);
+}
+
+function showCategoryContent(catIdx) {
+  const container = document.getElementById('knowledge-tree');
+  container.innerHTML = '';
+  const cards = window._catContent[catIdx];
+  if (cards) {
+    cards.forEach(card => {
+      card.classList.remove('open');
+      card.querySelectorAll('.tree-node').forEach(n => n.classList.remove('open'));
+      container.appendChild(card);
+    });
+  }
+  updateBreadcrumb();
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1505,52 +1600,84 @@ document.getElementById('searchInput').addEventListener('input', function() {
   const q = this.value.toLowerCase().trim();
   if (!q) { clearSearch(); return; }
   
-  document.querySelectorAll('.cat-card').forEach(card => {
-    let found = false;
-    card.querySelectorAll('.tree-node').forEach(node => {
-      const text = node.getAttribute('data-search') || '';
-      const label = node.querySelector(':scope > .node-header .node-label');
-      if (text.includes(q)) {
+  // Search across ALL categories regardless of which is selected
+  const container = document.getElementById('knowledge-tree');
+  container.innerHTML = '';
+  
+  // Deselect category nav
+  document.querySelectorAll('.cat-nav-btn').forEach(b => b.classList.remove('active'));
+  activeCatIdx = null;
+  
+  let anyFound = false;
+  CATEGORIES.forEach((cat, ci) => {
+    const cards = window._catContent[ci];
+    if (!cards) return;
+    cards.forEach(card => {
+      let found = false;
+      card.querySelectorAll('.tree-node').forEach(node => {
+        const text = node.getAttribute('data-search') || '';
+        const label = node.querySelector(':scope > .node-header .node-label');
+        if (text.includes(q)) {
+          found = true;
+          node.style.display = '';
+          let p = node.parentElement;
+          while (p) {
+            if (p.classList && p.classList.contains('tree-node')) p.classList.add('open');
+            if (p.classList && p.classList.contains('subtopic-card')) p.classList.add('open');
+            p = p.parentElement;
+          }
+          if (label) {
+            const orig = label.textContent;
+            const re = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+            label.innerHTML = orig.replace(re, '<mark class="search-match">$1</mark>');
+          }
+        }
+      });
+      // Also check the subtopic title
+      const subTitle = card.querySelector('.subtopic-title');
+      if (subTitle && subTitle.textContent.toLowerCase().includes(q)) {
         found = true;
-        node.style.display = '';
-        // open parents
-        let p = node.parentElement;
-        while (p) {
-          if (p.classList && p.classList.contains('tree-node')) p.classList.add('open');
-          if (p.classList && p.classList.contains('cat-card')) p.classList.add('open');
-          p = p.parentElement;
-        }
-        // highlight
-        if (label) {
-          const orig = label.textContent;
-          const re = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
-          label.innerHTML = orig.replace(re, '<mark class="search-match">$1</mark>');
-        }
-      } else {
-        const hasMatchedChild = node.querySelector('.tree-node[style=""]') || node.querySelector('.tree-node:not([style*="display: none"])');
-        if (!hasMatchedChild) {
-          // keep it visible if it has a matched descendant
-        }
+        card.classList.add('open');
+      }
+      if (found) {
+        anyFound = true;
+        card.classList.add('open');
+        container.appendChild(card);
       }
     });
-    card.style.display = found ? '' : 'none';
-    if (found) card.classList.add('open');
   });
+  
+  if (!anyFound) {
+    container.innerHTML = '<div class="explore-empty"><p>No results found for "' + q.replace(/</g,'&lt;') + '"</p></div>';
+  }
 });
 
 function clearSearch() {
-  document.querySelectorAll('.cat-card').forEach(c => { c.style.display = ''; });
-  document.querySelectorAll('.tree-node').forEach(n => { n.style.display = ''; });
+  // Remove highlights
   document.querySelectorAll('.search-match').forEach(m => {
     m.replaceWith(document.createTextNode(m.textContent));
   });
+  // Restore to active category or empty state
+  if (activeCatIdx !== null) {
+    showCategoryContent(activeCatIdx);
+    // Re-highlight active nav btn
+    const btns = document.querySelectorAll('.cat-nav-btn');
+    btns.forEach(b => b.classList.remove('active'));
+    if (btns[activeCatIdx]) btns[activeCatIdx].classList.add('active');
+  } else {
+    showEmptyState();
+  }
 }
 
 document.getElementById('resetBtn').addEventListener('click', () => {
   document.getElementById('searchInput').value = '';
   clearSearch();
-  document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('open'));
+  // Reset collapse states
+  document.querySelectorAll('.subtopic-card').forEach(c => c.classList.remove('open'));
   document.querySelectorAll('.tree-node').forEach(n => n.classList.remove('open'));
+  activeCatIdx = null;
+  document.querySelectorAll('.cat-nav-btn').forEach(b => b.classList.remove('active'));
+  showEmptyState();
 });
 
 // ═══════════════════════════════════════════════════════
@@ -1894,20 +2021,30 @@ document.getElementById('progressToggle').addEventListener('click', () => {
 // ═══════════════════════════════════════════════════════
 // COLLAPSE / EXPAND CONTROLS
 // ═══════════════════════════════════════════════════════
-document.getElementById('expandAllBtn').addEventListener('click', () => {   document.querySelectorAll('.cat-card').forEach(c => c.classList.add('open'));   document.querySelectorAll('.tree-node').forEach(n => n.classList.add('open'));   updateBreadcrumb(); }); document.getElementById('collapseAllBtn').addEventListener('click', () => {
-  document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('open'));
-  document.querySelectorAll('.tree-node').forEach(n => n.classList.remove('open'));
+document.getElementById('expandAllBtn').addEventListener('click', () => {
+  // Only affect visible subtopic cards in the knowledge-tree container
+  const container = document.getElementById('knowledge-tree');
+  container.querySelectorAll('.subtopic-card').forEach(c => c.classList.add('open'));
+  container.querySelectorAll('.tree-node').forEach(n => n.classList.add('open'));
+  updateBreadcrumb();
+});
+
+document.getElementById('collapseAllBtn').addEventListener('click', () => {
+  const container = document.getElementById('knowledge-tree');
+  container.querySelectorAll('.subtopic-card').forEach(c => c.classList.remove('open'));
+  container.querySelectorAll('.tree-node').forEach(n => n.classList.remove('open'));
   updateBreadcrumb();
 });
 
 document.getElementById('expandLevelSelect').addEventListener('change', function() {
   const level = parseInt(this.value);
+  const container = document.getElementById('knowledge-tree');
   if (level === 0) {
-    document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('open'));
-    document.querySelectorAll('.tree-node').forEach(n => n.classList.remove('open'));
+    container.querySelectorAll('.subtopic-card').forEach(c => c.classList.remove('open'));
+    container.querySelectorAll('.tree-node').forEach(n => n.classList.remove('open'));
   } else {
-    document.querySelectorAll('.cat-card').forEach(c => c.classList.add('open'));
-    document.querySelectorAll('.tree-node').forEach(n => {
+    container.querySelectorAll('.subtopic-card').forEach(c => c.classList.add('open'));
+    container.querySelectorAll('.tree-node').forEach(n => {
       const d = parseInt(n.getAttribute('data-depth') || '99');
       if (d <= level) n.classList.add('open');
       else n.classList.remove('open');
@@ -2022,7 +2159,7 @@ function updateCiwaTotal() {
   recEl.textContent = rec;
 }
 
-document.getElementById('ciwaBtn').addEventListener('click', () => {
+document.getElementById('ciwaBtnNav').addEventListener('click', () => {
   document.getElementById('ciwaModal').classList.add('active');
   renderCiwa();
 });
@@ -2080,7 +2217,7 @@ function renderRxTable(filter) {
   }).join('');
 }
 
-document.getElementById('rxRefBtn').addEventListener('click', () => {
+document.getElementById('rxRefBtnNav').addEventListener('click', () => {
   document.getElementById('rxModal').classList.add('active');
   renderRxTable('');
 });
@@ -2105,7 +2242,7 @@ document.querySelectorAll('.rx-table th').forEach(th => {
 // ═══════════════════════════════════════════════════════
 // PRINT MODE
 // ═══════════════════════════════════════════════════════
-document.getElementById('printBtn').addEventListener('click', () => {
+document.getElementById('printBtnNav').addEventListener('click', () => {
   window.print();
 });
 
@@ -2274,7 +2411,51 @@ document.getElementById('fcStartBtn').addEventListener('click', () => {
 // ═══════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════
-function initCatNav() { const catNav = document.getElementById('catNav'); if (!catNav) return; catNav.innerHTML = ''; let activeCat = null; CATEGORIES.forEach((cat, i) => { const btn = document.createElement('button'); btn.className = 'cat-nav-btn'; btn.innerHTML = '<span class="cat-nav-dot" style="background:' + cat.color + '"></span>' + cat.name; btn.style.color = activeCat === i ? cat.color : ''; btn.addEventListener('click', () => { if (activeCat === i) { activeCat = null; btn.classList.remove('active'); btn.style.color = ''; document.querySelectorAll('.cat-card').forEach(c => c.style.display = ''); } else { activeCat = i; document.querySelectorAll('.cat-nav-btn').forEach(b => { b.classList.remove('active'); b.style.color = ''; }); btn.classList.add('active'); btn.style.color = cat.color; document.querySelectorAll('.cat-card').forEach((c, ci) => { c.style.display = ci === i ? '' : 'none'; if (ci === i) { c.classList.add('open'); } }); } }); catNav.appendChild(btn); }); } function updateCatNavVisibility() { const catNav = document.getElementById('catNav'); if (!catNav) return; if (currentTab === 'explore') { catNav.classList.add('visible'); } else { catNav.classList.remove('visible'); document.querySelectorAll('.cat-card').forEach(c => c.style.display = ''); document.querySelectorAll('.cat-nav-btn').forEach(b => { b.classList.remove('active'); b.style.color = ''; }); } } document.querySelectorAll('.nav-tab').forEach(tab => { tab.addEventListener('click', updateCatNavVisibility); }); renderKnowledgeTree(); initCatNav(); updateCatNavVisibility();
+let activeCatIdx = null;
+
+function initCatNav() {
+  const catNav = document.getElementById('catNav');
+  if (!catNav) return;
+  catNav.innerHTML = '';
+  CATEGORIES.forEach((cat, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'cat-nav-btn';
+    btn.textContent = cat.name;
+    btn.addEventListener('click', () => {
+      if (activeCatIdx === i) {
+        // Toggle off — return to empty state
+        activeCatIdx = null;
+        btn.classList.remove('active');
+        showEmptyState();
+      } else {
+        activeCatIdx = i;
+        document.querySelectorAll('.cat-nav-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        showCategoryContent(i);
+      }
+    });
+    catNav.appendChild(btn);
+  });
+}
+
+function updateCatNavVisibility() {
+  const catNav = document.getElementById('catNav');
+  if (!catNav) return;
+  if (currentTab === 'explore') {
+    catNav.classList.add('visible');
+  } else {
+    catNav.classList.remove('visible');
+    activeCatIdx = null;
+    document.querySelectorAll('.cat-nav-btn').forEach(b => b.classList.remove('active'));
+  }
+}
+
+document.querySelectorAll('.nav-tab').forEach(tab => {
+  tab.addEventListener('click', updateCatNavVisibility);
+});
+renderKnowledgeTree();
+initCatNav();
+updateCatNavVisibility();
 renderCaseList();
 renderPharma();
 renderMyths();
@@ -2283,4 +2464,3 @@ updateProgress();
 </script>
 <footer style="text-align:center;padding:16px 24px;margin-top:32px;font-size:0.72rem;color:var(--text-faint);line-height:1.6;"><strong>Medical Disclaimer:</strong> This tool is intended for educational purposes only and does not constitute medical advice, diagnosis, or treatment. Clinical decisions should be made by qualified healthcare professionals based on individual patient circumstances. Information provided may not reflect the most current clinical guidelines. Always consult current literature and institutional protocols before applying any information to patient care.</footer></body>
 </html>
-Hyper Icon
