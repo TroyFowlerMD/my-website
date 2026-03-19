@@ -93,8 +93,7 @@ body {
   background: var(--surface);
   border-bottom: 1px solid var(--border);
   backdrop-filter: blur(12px);
-  display: flex; flex-direction: column;
-  padding: 0 1.25rem;
+  display: flex; flex-direction: column-reverse;  padding: 0 1.25rem;
 }
 .nav-row-top {
   display: flex; align-items: center; gap: 0.5rem;
@@ -121,7 +120,7 @@ body {
   cursor: pointer;
   border-bottom: 2px solid transparent;
   transition: all var(--transition);
-  background: none; border-top: none; border-left: none; border-right: none;
+  background: none; border: 1px solid rgba(150, 150, 150, 0.15); border-bottom: 2px solid transparent;
   user-select: none;
 }
 .nav-tab:hover { color: var(--text); }
