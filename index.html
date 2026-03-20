@@ -678,8 +678,8 @@ body {
   display: none; width: 100%;
   border-bottom: 1px solid var(--border);
   background: var(--surface);
-  padding: 0 1.25rem;
-  overflow-x: auto; white-space: nowrap;
+  padding: 0.25rem 1.25rem;
+  flex-wrap: wrap; justify-content: center;
   position: sticky; top: 0; z-index: 90;
 }
 .cat-nav.visible { display: flex; gap: 0; }
@@ -728,10 +728,21 @@ body {
 /* Empty state for explore panel */
 .explore-empty {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 4rem 2rem; color: var(--text-faint); text-align: center;
+  padding: 2rem 1.5rem; color: var(--text-faint); text-align: center;
 }
 .explore-empty svg { margin-bottom: 1rem; opacity: 0.4; }
 .explore-empty p { font-size: 0.9rem; line-height: 1.5; max-width: 360px; }
+.welcome-panel{width:100%;max-width:900px;margin:0 auto}
+.welcome-header{margin-bottom:1.5rem}
+.welcome-header h2{font-size:1.15rem;font-weight:700;color:var(--text);margin-bottom:0.35rem}
+.welcome-header p{font-size:0.82rem;color:var(--text-muted);line-height:1.5}
+.welcome-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:0.75rem}
+.welcome-card{display:flex;align-items:center;gap:0.65rem;padding:0.75rem 1rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:all var(--transition);text-align:left}
+.welcome-card:hover{border-color:var(--border-hover);transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.15)}
+.welcome-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.welcome-card-name{font-size:0.82rem;font-weight:600;color:var(--text);line-height:1.3}
+.welcome-footer{margin-top:1.5rem;font-size:0.75rem;color:var(--text-faint);display:flex;align-items:center;justify-content:center;gap:0.5rem}
+.welcome-footer svg{opacity:0.5}
 
 /* FOOTER */
 .site-footer {
@@ -1848,14 +1859,14 @@ function renderKnowledgeTree() {
 
 function showEmptyState() {
   const container = document.getElementById('knowledge-tree');
-  container.innerHTML = '';
-  const empty = document.createElement('div');
-  empty.className = 'explore-empty';
-  empty.innerHTML = `
-    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-    <p>Select a category above to explore its subtopics, or use the search bar to find content across all categories.</p>
-  `;
-  container.appendChild(empty);
+  const subtopicCounts = CATEGORIES.map(c => c.subtopics ? c.subtopics.length : 0);
+  const totalSubs = subtopicCounts.reduce((a,b) => a+b, 0);
+  let cards = CATEGORIES.map((c,i) => `<div class="welcome-card" onclick="document.querySelectorAll('.cat-nav-btn')[${i}].click()" title="${subtopicCounts[i]} subtopics"><div class="welcome-dot" style="background:${c.color}"></div><div class="welcome-card-name">${c.name}</div></div>`).join('');
+  container.innerHTML = `<div class="explore-empty"><div class="welcome-panel">
+    <div class="welcome-header"><h2>Alcohol &amp; Benzodiazepine Use Disorders &mdash; Knowledge Tree</h2><p>${CATEGORIES.length} categories &middot; ${totalSubs} subtopics &middot; Select any topic below or from the navigation bar to begin.</p></div>
+    <div class="welcome-grid">${cards}</div>
+    <div class="welcome-footer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg> Use Explore mode to study &middot; switch to Activities for cases &amp; quizzes</div>
+  </div></div>`;
 }
 
 function showCategoryContent(catIdx) {
