@@ -1185,7 +1185,7 @@ body {
 <!-- EXPLORE PANEL -->
 <div class="panel active" id="panel-explore">
 
-  <div class="explore-controls">
+  <div class="explore-controls" id="exploreControls" style="display:none">
     <button class="ctrl-btn" id="collapseAllBtn">Collapse All</button>
     <button class="ctrl-btn" id="expandAllBtn">Expand All</button>
     <label style="font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:0.35rem;">
@@ -1859,6 +1859,7 @@ function renderKnowledgeTree() {
 
 function showEmptyState() {
   const container = document.getElementById('knowledge-tree');
+  const ec = document.getElementById('exploreControls'); if (ec) ec.style.display = 'none';
   const subtopicCounts = CATEGORIES.map(c => c.subtopics ? c.subtopics.length : 0);
   const totalSubs = subtopicCounts.reduce((a,b) => a+b, 0);
   let cards = CATEGORIES.map((c,i) => `<div class="welcome-card" onclick="document.querySelectorAll('.cat-nav-btn')[${i}].click()" title="${subtopicCounts[i]} subtopics"><div class="welcome-dot" style="background:${c.color}"></div><div class="welcome-card-name">${c.name}</div></div>`).join('');
@@ -1871,6 +1872,7 @@ function showEmptyState() {
 
 function showCategoryContent(catIdx) {
   const container = document.getElementById('knowledge-tree');
+  const ec = document.getElementById('exploreControls'); if (ec) ec.style.display = '';
   container.innerHTML = '';
   const cards = window._catContent[catIdx];
   if (cards) {
