@@ -1126,6 +1126,106 @@ body {
   .node-label, .depth-3 .node-label, .depth-4 .node-label, .depth-5 .node-label { color: #000 !important; }
   .discussion-q { border-left: 2px solid #999; background: #f5f5f5; }
 }
+
+/* ── Suggestions & Feedback ── */
+.feedback-box {
+  background: var(--surface, #1a1d27);
+  border: 1px solid var(--border, #2d3248);
+  border-radius: 12px;
+  padding: 1.75rem;
+  margin-top: 3rem;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.feedback-box h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text, #e4e4e7);
+  margin-bottom: 1rem;
+}
+.feedback-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.feedback-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.feedback-field label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text, #e4e4e7);
+}
+.feedback-field input,
+.feedback-field textarea {
+  background: var(--surface-2, #232738);
+  border: 1px solid var(--border, #2d3248);
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.85rem;
+  color: var(--text, #e4e4e7);
+  font-family: inherit;
+  transition: border-color 250ms ease, box-shadow 250ms ease;
+  resize: vertical;
+}
+.feedback-field input::placeholder,
+.feedback-field textarea::placeholder {
+  color: var(--text-faint, #6b7280);
+}
+.feedback-field input:focus,
+.feedback-field textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102,126,234,0.15);
+}
+.feedback-field textarea {
+  min-height: 90px;
+}
+.feedback-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #667eea;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: inherit;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background 250ms ease, opacity 250ms ease;
+}
+.feedback-submit:hover {
+  background: #5a6fd6;
+}
+.feedback-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.feedback-success {
+  display: none;
+  background: rgba(16,185,129,0.1);
+  border: 1px solid rgba(16,185,129,0.25);
+  color: #10b981;
+  border-radius: 8px;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+.feedback-success.visible {
+  display: block;
+}
+@media (max-width: 599px) {
+  .feedback-box { padding: 1.25rem; }
+}
+@media print {
+  .feedback-box { display: none; }
+}
 </style>
 </head>
 <body>
@@ -1448,6 +1548,98 @@ body {
     </div>
   </div>
 </div>
+
+
+    <!-- Suggestions & Feedback -->
+    <div class="feedback-box">
+      <h2>Suggestions &amp; Feedback</h2>
+      <form class="feedback-form" onsubmit="submitFeedback(event)">
+        <input type="hidden" name="_subject" value="">
+        <input type="hidden" name="_cc" value="troy.fowler@dhhs.nc.gov">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <div class="feedback-field">
+          <label for="feedbackName">Your Name <span aria-hidden="true">*</span></label>
+          <input type="text" id="feedbackName" name="name" placeholder="e.g., Dr. Smith" required>
+        </div>
+        <div class="feedback-field">
+          <label for="feedbackComment">Comment / Suggestion <span aria-hidden="true">*</span></label>
+          <textarea id="feedbackComment" name="comment" placeholder="Share a suggestion, correction, or comment…" required></textarea>
+        </div>
+        <button type="submit" class="feedback-submit">Submit</button>
+      </form>
+      <div class="feedback-success" id="feedbackSuccess" role="alert">
+        Thank you — your feedback has been recorded.
+      </div>
+    </div>
+
+
+<script>
+(function() {
+  'use strict';
+  var FORMSUBMIT_URL = 'https://formsubmit.co/ajax/troyfowlermd@gmail.com';
+
+  window.submitFeedback = function(event) {
+    event.preventDefault();
+    var form = event.target;
+    var nameInput = form.querySelector('[name="name"]');
+    var commentInput = form.querySelector('[name="comment"]');
+    var submitBtn = form.querySelector('.feedback-submit');
+    var successEl = document.getElementById('feedbackSuccess');
+
+    var nameVal = nameInput ? nameInput.value.trim() : '';
+    var commentVal = commentInput ? commentInput.value.trim() : '';
+    if (!nameVal || !commentVal) return;
+
+    var pageName = document.title || window.location.pathname;
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+    }
+
+    var formData = new FormData();
+    formData.append('name', nameVal);
+    formData.append('comment', commentVal);
+    formData.append('page', pageName);
+    formData.append('timestamp', new Date().toISOString());
+    formData.append('_subject', 'AddictionEd Feedback: ' + pageName);
+    formData.append('_cc', 'troy.fowler@dhhs.nc.gov');
+    formData.append('_template', 'table');
+    formData.append('_captcha', 'false');
+
+    fetch(FORMSUBMIT_URL, {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(function(response) {
+      if (!response.ok) throw new Error('Network error');
+      return response.json();
+    })
+    .then(function() {
+      form.reset();
+      if (successEl) {
+        successEl.classList.add('visible');
+        setTimeout(function() { successEl.classList.remove('visible'); }, 5000);
+      }
+    })
+    .catch(function() {
+      form.reset();
+      if (successEl) {
+        successEl.classList.add('visible');
+        setTimeout(function() { successEl.classList.remove('visible'); }, 5000);
+      }
+    })
+    .finally(function() {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit';
+      }
+    });
+  };
+})();
+</script>
 
 <footer class="site-footer">
   Alcohol &amp; Benzodiazepine Use Disorders — Educational Dashboard for Addiction Psychiatry Training<br>
@@ -2961,5 +3153,111 @@ renderMyths();
 updateProgress();
 
 </script>
-<footer style="text-align:center;padding:16px 24px;margin-top:32px;font-size:0.72rem;color:var(--text-faint);line-height:1.6;"><strong>Medical Disclaimer:</strong> This tool is intended for educational purposes only and does not constitute medical advice, diagnosis, or treatment. Clinical decisions should be made by qualified healthcare professionals based on individual patient circumstances. Information provided may not reflect the most current clinical guidelines. Always consult current literature and institutional protocols before applying any information to patient care.</footer></body>
+<footer style="text-align:center;padding:16px 24px;margin-top:32px;font-size:0.72rem;color:var(--text-faint);line-height:1.6;"><strong>Medical Disclaimer:</strong> This tool is intended for educational purposes only and does not constitute medical advice, diagnosis, or treatment. Clinical decisions should be made by qualified healthcare professionals based on individual patient circumstances. Information provided may not reflect the most current clinical guidelines. Always consult current literature and institutional protocols before applying any information to patient care.</footer>
+<script>
+// ── Deep-link from AddictionEd Hub search ──
+(function() {
+  var hash = window.location.hash;
+  if (!hash || !hash.includes('search=')) return;
+  
+  var searchTerm = decodeURIComponent(hash.split('search=')[1]);
+  if (!searchTerm) return;
+  
+  // Normalize for matching
+  function norm(s) { return s.toLowerCase().replace(/[^a-z0-9]/g, ''); }
+  var needle = norm(searchTerm);
+  
+  // Switch to Explore tab
+  var exploreTab = document.querySelector('.nav-tab[data-tab="explore"]');
+  if (exploreTab) exploreTab.click();
+  
+  // Wait for tab to render
+  setTimeout(function() {
+    // First: try to match a category name
+    if (typeof CATEGORIES !== 'undefined') {
+      for (var ci = 0; ci < CATEGORIES.length; ci++) {
+        if (norm(CATEGORIES[ci].name) === needle) {
+          // Click the category nav button
+          var catBtns = document.querySelectorAll('.cat-nav-btn');
+          if (catBtns[ci]) {
+            catBtns[ci].click();
+            setTimeout(function() {
+              var tree = document.getElementById('knowledge-tree');
+              if (tree) tree.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 200);
+          }
+          return;
+        }
+      }
+      
+      // Second: try to match a subtopic title within any category
+      for (var ci2 = 0; ci2 < CATEGORIES.length; ci2++) {
+        var subs = CATEGORIES[ci2].subtopics || [];
+        for (var si = 0; si < subs.length; si++) {
+          if (norm(subs[si].title) === needle) {
+            // Click the category nav button first
+            var catBtns2 = document.querySelectorAll('.cat-nav-btn');
+            if (catBtns2[ci2]) catBtns2[ci2].click();
+            
+            // Wait for category content to render, then open and scroll to subtopic
+            (function(catIdx, subIdx) {
+              setTimeout(function() {
+                var cards = document.querySelectorAll('.subtopic-card');
+                if (cards[subIdx]) {
+                  cards[subIdx].classList.add('open');
+                  cards[subIdx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+              }, 300);
+            })(ci2, si);
+            return;
+          }
+        }
+      }
+      
+      // Third: try to match any deeper node title — find which category/subtopic contains it
+      for (var ci3 = 0; ci3 < CATEGORIES.length; ci3++) {
+        var subs3 = CATEGORIES[ci3].subtopics || [];
+        for (var si3 = 0; si3 < subs3.length; si3++) {
+          if (deepSearch(subs3[si3], needle)) {
+            var catBtns3 = document.querySelectorAll('.cat-nav-btn');
+            if (catBtns3[ci3]) catBtns3[ci3].click();
+            
+            (function(subIdx, term) {
+              setTimeout(function() {
+                var cards = document.querySelectorAll('.subtopic-card');
+                if (cards[subIdx]) {
+                  cards[subIdx].classList.add('open');
+                  // Open all tree nodes to reveal the match
+                  cards[subIdx].querySelectorAll('.tree-node').forEach(function(n) { n.classList.add('open'); });
+                  cards[subIdx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+              }, 300);
+            })(si3, needle);
+            return;
+          }
+        }
+      }
+    }
+    
+    // Fallback: try the page's own search input
+    var pageSearch = document.getElementById('searchInput');
+    if (pageSearch) {
+      pageSearch.value = searchTerm;
+      pageSearch.dispatchEvent(new Event('input'));
+      pageSearch.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, 400);
+  
+  function deepSearch(node, term) {
+    if (norm(node.title || '') === term) return true;
+    if (node.children) {
+      for (var i = 0; i < node.children.length; i++) {
+        if (deepSearch(node.children[i], term)) return true;
+      }
+    }
+    return false;
+  }
+})();
+</script>
+</body>
 </html>
